@@ -13,8 +13,12 @@ namespace BookStoreLIB {
                 cmd.Parameters.AddWithValue("@UserName", userName);
                 cmd.Parameters.AddWithValue("@Password", password);
                 conn.Open();
-                int userId = (int)cmd.ExecuteScalar();
-                if (userId > 0) { return userId; } else return -1;
+                object result = cmd.ExecuteScalar();
+                if (result != null && int.TryParse(result.ToString(), out int userId)) {
+                    return userId;
+                } else {
+                    return -1;
+                }
             }
             catch (Exception ex) {
                 Debug.WriteLine(ex.ToString());
