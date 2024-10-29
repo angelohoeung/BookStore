@@ -3,22 +3,34 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Account Management" Height="220" Width="550">
     <StackPanel>
-        <TextBlock Text="Name: John Doe" Margin="10"/>
+        <!-- Display Name -->
         <StackPanel Orientation="Horizontal" Margin="10">
-            <TextBlock Text="Username: johndoe"/>
-            <Button MinHeight="25" MinWidth="80"
-		    Content="Edit" Click="EditUsername_Click" Margin="10,0,0,0"/>
+            <TextBlock Text="Name:" Margin="0,0,10,0"/>
+            <TextBlock Text="{Binding FullName}" x:Name="nameTextBlock"/>
         </StackPanel>
+
+        <!-- Display Username with Edit Button -->
         <StackPanel Orientation="Horizontal" Margin="10">
-            <TextBlock Text="Password: *****"/>
+            <TextBlock Text="Username:" Margin="0,0,10,0"/>
+            <TextBlock Text="{Binding UserName}" x:Name="usernameTextBlock"/>
             <Button MinHeight="25" MinWidth="80"
-		    Content="Edit" Click="EditPassword_Click" Margin="10,0,0,0"/>
+                    Content="Edit" Click="EditUsername_Click" Margin="10,0,0,0"/>
         </StackPanel>
+
+        <!-- Display Password with Edit Button (obscured) -->
+        <StackPanel Orientation="Horizontal" Margin="10">
+            <TextBlock Text="Password:" Margin="0,0,10,0"/>
+            <TextBlock Text="*****" x:Name="passwordTextBlock"/>
+            <Button MinHeight="25" MinWidth="80"
+                    Content="Edit" Click="EditPassword_Click" Margin="10,0,0,0"/>
+        </StackPanel>
+
+        <!-- Back and Delete Account Buttons -->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
             <Button MinHeight="25" MinWidth="80"
-		    Content="Back" Click="BackButton_Click" />
+                    Content="Back" Click="BackButton_Click" />
             <Button MinHeight="25" MinWidth="80"
-		    Content="Delete Account" Click="DeleteAccount_Click" Width="121" Margin="286,0,0,0"/>
+                    Content="Delete Account" Click="DeleteAccount_Click" Width="121" Margin="286,0,0,0"/>
         </StackPanel>
     </StackPanel>
 </Window>
