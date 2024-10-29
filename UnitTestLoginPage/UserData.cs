@@ -82,7 +82,7 @@ namespace BookStoreLIB {
 
             if (dscheck.Tables["Accounts"].Rows.Count > 0)
             {
-                return new Response() { message = "The username has already exists", err = true};
+                return new Response() { message = "The username has already existed", err = true};
             }
 
             if (CheckBlankPw(password) || CheckPwStartsWithNonLetter(password) || CheckPwLength(password) || fullName.Length < 6)
