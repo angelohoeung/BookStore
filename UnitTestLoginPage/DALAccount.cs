@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BookStoreLIB
 {
-    class DALAccount
+    public class DALAccount
     {
         SqlConnection conn;
         DataSet dsAccountInfo;
@@ -17,18 +17,72 @@ namespace BookStoreLIB
         {
             conn = new SqlConnection(Properties.Settings.Default.Connection);
         }
-        public DataSet GetAccountInfo()
+        public DataSet GetAccountInfo(int userId)
         {
             try
             {
-                String strSQL = "Select UserID, UserName, Password, Fullname from UserData";
-                SqlCommand cmdGetAccountInfo = new SqlCommand(strSQL, conn);
+                String strSQL = 
+                    @"
+                    SELECT 
+                        UserID,
+                        UserName, 
+                        Password, 
+                        Fullname 
+                    FROM 
+                        UserData 
+                    WHERE 
+                        UserID = @UserId";
+
+                using (SqlCommand cmdGetAccountInfo = new SqlCommand(strSQL, conn))
+                {
+                cmdGetAccountInfo.Parameters.AddWithValue("@UserId", userId);
+
                 SqlDataAdapter daAccountInfo = new SqlDataAdapter(cmdGetAccountInfo);
-                dsAccountInfo = new DataSet("Books");
-                daAccountInfo.Fill(dsAccountInfo, "Category");            //Get category info
-            }
-            catch (Exception ex) { Debug.WriteLine(ex.Message); }
+                dsAccountInfo = new DataSet("Accounts");
+                daAccountInfo.Fill(dsAccountInfo, "Accounts");          
+                }
+            }     
+            catch (Exception ex) { return null; }
             return dsAccountInfo;
         }
+
+        public bool UpdateAccount(int userId, string userName, string password, string fullName)
+        {
+            string query = @"
+            UPDATE UserData
+            SET 
+                UserName = @UserName, 
+                Password = @Password, 
+                FullName = @FullName
+            WHERE 
+                UserID = @UserId";
+
+
+            using (SqlCommand command = new SqlCommand(query, conn))
+            {
+                // Add parameters to prevent SQL injection
+                command.Parameters.AddWithValue("@UserId", userId);
+                command.Parameters.AddWithValue("@UserName", userName);
+                command.Parameters.AddWithValue("@Password", password);
+                command.Parameters.AddWithValue("@FullName", fullName);
+
+                try
+                {
+                    conn.Open();
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    // Return true if at least one row was updated
+                    conn.Close();
+                    return rowsAffected > 0;
+                }
+                catch (Exception ex)
+                {
+                    // Log or handle exception as needed
+                    Console.WriteLine($"An error occurred: {ex.Message}");
+                    return false;
+                }
+            }
+        }
+
     }
 }

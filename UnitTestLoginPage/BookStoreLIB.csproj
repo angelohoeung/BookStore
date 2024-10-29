@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="BookCatalog.cs" />
     <Compile Include="BookOrder.cs" />
+    <Compile Include="DALAccount.cs" />
     <Compile Include="DALBookCatalog.cs" />
     <Compile Include="DALOrder.cs" />
     <Compile Include="DALUserInfo.cs" />
