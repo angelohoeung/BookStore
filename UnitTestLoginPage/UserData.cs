@@ -98,6 +98,39 @@ namespace BookStoreLIB {
             }
         }
 
+        public Response DeletedAccount (int userId)
+        {
+            try
+            {
+                DALAccount dlaAccount = new DALAccount();
+                bool result = dlaAccount.DeleteAccount(userId);
+                if (result == true)
+                {
+                    return new Response()
+                    {
+                        message = "Deleted account",
+                        err = false,
+                    };
+            }
+                else
+                {
+                    return new Response()
+                    {
+                        message = "Something happens during the process",
+                        err = true
+                    };
+                }
+
+            }
+            catch (Exception e)
+            {
+                return new Response()
+                {
+                    message = $"Error: {e.Message}",
+                    err = true
+                };
+            }
+        }
     }
 
 }

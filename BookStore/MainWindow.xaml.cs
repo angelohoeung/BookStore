@@ -59,8 +59,8 @@ namespace BookStoreGUI {
             //MessageBox.Show(dsAccount.Tables["Accounts"].Rows[0]["UserName"].ToString());
 
             //Testing for Account Update
-            MessageBox.Show(new UserData().UpdateAccount(10, "doanhdz", "testing password", "hihihi").message);
-
+            //MessageBox.Show(new UserData().UpdateAccount(10, "doanhdz", "testing password", "hihihi").message);
+            MessageBox.Show(new UserData().DeletedAccount(10).message);
 
             //this.DataContext = a.GetAccountInfo().Tables["Account"];
         }

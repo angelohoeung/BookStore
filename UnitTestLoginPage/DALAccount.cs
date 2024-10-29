@@ -115,5 +115,35 @@ namespace BookStoreLIB
             }
         }
 
+        public bool DeleteAccount (int userId)
+        {
+            string query = @"
+            DELETE FROM UserData
+            WHERE 
+            UserID = @UserId";
+
+            using (SqlCommand command = new SqlCommand(query, conn))
+            {
+                // Add parameters to prevent SQL injection
+                command.Parameters.AddWithValue("@UserId", userId);
+
+                try
+                {
+                    conn.Open();
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    // Return true if at least one row was updated
+                    conn.Close();
+                    return rowsAffected > 0;
+                }
+                catch (Exception ex)
+                {
+                    // Log or handle exception as needed
+                    Console.WriteLine($"An error occurred: {ex.Message}");
+                    return false;
+                }
+            }
+        }
+
     }
 }
