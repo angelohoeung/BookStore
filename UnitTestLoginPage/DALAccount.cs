@@ -13,10 +13,12 @@ namespace BookStoreLIB
     {
         SqlConnection conn;
         DataSet dsAccountInfo;
+
         public DALAccount()
         {
             conn = new SqlConnection(Properties.Settings.Default.Connection);
         }
+
         public DataSet GetAccountInfo(int userId)
         {
             try
@@ -42,6 +44,35 @@ namespace BookStoreLIB
                 daAccountInfo.Fill(dsAccountInfo, "Accounts");          
                 }
             }     
+            catch (Exception ex) { return null; }
+            return dsAccountInfo;
+        }
+
+        public DataSet GetAccountInfoByName(string userName)
+        {
+            try
+            {
+                String strSQL =
+                    @"
+                    SELECT 
+                        UserID,
+                        UserName, 
+                        Password, 
+                        Fullname 
+                    FROM 
+                        UserData 
+                    WHERE 
+                        UserName = @userName";
+
+                using (SqlCommand cmdGetAccountInfo = new SqlCommand(strSQL, conn))
+                {
+                    cmdGetAccountInfo.Parameters.AddWithValue("@userName", userName);
+
+                    SqlDataAdapter daAccountInfo = new SqlDataAdapter(cmdGetAccountInfo);
+                    dsAccountInfo = new DataSet("Accounts");
+                    daAccountInfo.Fill(dsAccountInfo, "Accounts");
+                }
+            }
             catch (Exception ex) { return null; }
             return dsAccountInfo;
         }

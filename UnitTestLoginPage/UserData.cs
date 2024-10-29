@@ -77,6 +77,14 @@ namespace BookStoreLIB {
         }
 
         public Response UpdateAccount(int userId, string userName, string password, string fullName) {
+            //Check if the username exists
+            DataSet dscheck = new DALAccount().GetAccountInfoByName(userName);
+
+            if (dscheck.Tables["Accounts"].Rows.Count > 0)
+            {
+                return new Response() { message = "The username has already exists", err = true};
+            }
+
             if (CheckBlankPw(password) || CheckPwStartsWithNonLetter(password) || CheckPwLength(password) || fullName.Length < 6)
             {
                 string msg = "Username and password does not satisfy all conditions";
