@@ -103,7 +103,7 @@ namespace BookStoreGUI {
         }
 
         private void AccountButton_Click(object sender, RoutedEventArgs e) {
-            AccountManagementWindow accountWindow = new AccountManagementWindow();
+            AccountManagementWindow accountWindow = new AccountManagementWindow(userData);
             accountWindow.Owner = this;
             accountWindow.ShowDialog();
         }
