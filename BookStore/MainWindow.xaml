@@ -5,7 +5,7 @@
  <Window x:Class="BookStoreGUI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="XY's BookStore" Height="484" Width="550" Loaded="Window_Loaded">
+        Title="XY's BookStore" Height="500.861" Width="550" Loaded="Window_Loaded">
     <Grid>
         <StackPanel x:Name="LayoutRoot" DataContext="{Binding}"
 	    Orientation="Vertical" HorizontalAlignment="Left" Height="auto" Width="auto">
@@ -27,6 +27,7 @@
             </StackPanel>
             <DataGrid AutoGenerateColumns="False" Height="165" 
 		ItemsSource="{Binding drCat_Book}"
+
 		x:Name="ProductsDataGrid" RowDetailsVisibilityMode="VisibleWhenSelected"
 		Width="490" HorizontalAlignment="Left" Margin="20,0,20,10"
 		SelectionMode="Single">
@@ -68,8 +69,14 @@
                 <Button x:Name="checkoutOrderButton" MinHeight="25" MinWidth="80"
 		    Content="Proceed to Checkout" Click="chechoutButton_Click" Width="121" Margin="286,0,0,0"/>
             </StackPanel>
+            
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" Width="484">
+                <Button x:Name="btn_account_management" MinHeight="25" MinWidth="80"
+		        Content="Account Management" Click="accountManagementButton_Click" Width="121" Margin="286,0,0,0"/>
+            </StackPanel>
+            
         </StackPanel>
-        <StatusBar VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
+        <StatusBar VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="28" Margin="0,0,0,-17">
             <TextBlock x:Name="statusTextBlock"><Run Text="Please login before proceeding to checkout."/></TextBlock>
         </StatusBar>
     </Grid>
