@@ -102,9 +102,10 @@ namespace BookStoreGUI {
             orderId.ToString());
         }
 
-        private void accountManagementButton_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("This Message has been clicked!");
+        private void AccountButton_Click(object sender, RoutedEventArgs e) {
+            AccountManagementWindow accountWindow = new AccountManagementWindow();
+            accountWindow.Owner = this;
+            accountWindow.ShowDialog();
         }
     }
 }
