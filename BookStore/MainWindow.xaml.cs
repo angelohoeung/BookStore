@@ -84,5 +84,11 @@ namespace BookStoreGUI {
             MessageBox.Show("Your order has been placed. Your order id is " +
             orderId.ToString());
         }
+
+        private void AccountButton_Click(object sender, RoutedEventArgs e) {
+            AccountManagementWindow accountWindow = new AccountManagementWindow();
+            accountWindow.Owner = this;
+            accountWindow.ShowDialog();
+        }
     }
 }
