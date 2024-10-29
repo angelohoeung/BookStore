@@ -84,5 +84,25 @@ namespace BookStoreGUI {
             MessageBox.Show("Your order has been placed. Your order id is " +
             orderId.ToString());
         }
+
+        private void EditCommand(object sender, RoutedEventArgs e)
+        {
+            if (orderListView.SelectedItem != null)
+            {
+                var selectedItem = orderListView.SelectedItem;
+                // Implement edit logic for the selected item
+                MessageBox.Show($"Editing item with ISBN: {(selectedItem as OrderItem)?.BookID}");
+            }
+        }
+
+        private void DeleteMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (orderListView.SelectedItem != null)
+            {
+                var selectedItem = orderListView.SelectedItem;
+                // Implement delete logic for the selected item
+                MessageBox.Show($"Deleting item with ISBN: {(selectedItem as OrderItem)?.BookID}");
+            }
+        }
     }
 }

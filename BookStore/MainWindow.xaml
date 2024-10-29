@@ -45,23 +45,38 @@
 			Header="Year" Width="8*" />
                 </DataGrid.Columns>
             </DataGrid>
+
             <StackPanel Orientation="Vertical">
+                <StackPanel.Resources>
+                    <ContextMenu x:Key="BookItemContextMenu">
+                        <MenuItem Header="Edit" Click="EditCommand" />
+                        <MenuItem Header="Delete" Click="DeleteMenuItem_Click" />
+                    </ContextMenu>
+                </StackPanel.Resources>
+
                 <ListView x:Name="orderListView" MinHeight="150" Width="490"
-		    ItemsSource="{Binding}" SelectionMode="Single">
+              ItemsSource="{Binding}" SelectionMode="Single">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="ContextMenu" Value="{StaticResource BookItemContextMenu}" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Width="80" Header="ISBN"
-				DisplayMemberBinding="{Binding BookID}" />
+                                DisplayMemberBinding="{Binding BookID}" />
                             <GridViewColumn Width="285" Header="Title"
-				DisplayMemberBinding="{Binding BookTitle}" />
+                                DisplayMemberBinding="{Binding BookTitle}" />
                             <GridViewColumn Width="60" Header="Quantity"
-				DisplayMemberBinding="{Binding Quantity}" />
+                                DisplayMemberBinding="{Binding Quantity}" />
                             <GridViewColumn Width="60" Header="Subtotal"
-				DisplayMemberBinding="{Binding SubTotal}" />
+                                DisplayMemberBinding="{Binding SubTotal}" />
                         </GridView>
                     </ListView.View>
                 </ListView>
             </StackPanel>
+
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
                 <Button x:Name="addButton" MinHeight="25" MinWidth="80"
 		    Content="Add Book" Click="addButton_Click" />
