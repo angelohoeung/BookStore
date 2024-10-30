@@ -79,8 +79,17 @@ namespace BookStoreGUI {
         private void DeleteAccount_Click(object sender, RoutedEventArgs e) {
             MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this account?",
                                                       "Delete Account", MessageBoxButton.OKCancel);
+
             if (result == MessageBoxResult.OK) {
-                // Implement delete functionality if needed
+                var response = _userData.DeletedAccount(_userData.UserId);
+                if (!response.err) {
+                    MessageBox.Show("Account deleted successfully.", "Deleted", MessageBoxButton.OK, MessageBoxImage.Information);
+                    // Close Account Management window and log out
+                    this.Close();
+                }
+                else {
+                    MessageBox.Show(response.message, "Delete Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 

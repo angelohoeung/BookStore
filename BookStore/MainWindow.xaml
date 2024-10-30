@@ -72,7 +72,7 @@
             <Button x:Name="accountButton" MinHeight="25" MinWidth="80"
 		    Content="Account" Click="AccountButton_Click" Width="121" Margin="366,0,0,0"/>
         </StackPanel>
-        <StatusBar VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="28" Margin="0,0,0,-17">
+        <StatusBar VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="28" Margin="0">
             <TextBlock x:Name="statusTextBlock"><Run Text="Please login before proceeding to checkout."/></TextBlock>
         </StatusBar>
     </Grid>

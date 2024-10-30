@@ -3,34 +3,46 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Account Management" Height="220" Width="550">
     <StackPanel>
-        <!-- Display Name -->
-        <StackPanel Orientation="Horizontal" Margin="10">
-            <TextBlock Text="Name:" Margin="0,0,10,0"/>
-            <TextBlock Text="{Binding FullName}" x:Name="nameTextBlock"/>
-        </StackPanel>
+        <Grid Margin="10" Width="500">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Name:" Grid.Column="0" Margin="0,0,10,0"/>
+            <TextBlock Text="{Binding FullName}" x:Name="nameTextBlock" Grid.Column="1"/>
+        </Grid>
 
-        <!-- Display Username with Edit Button -->
-        <StackPanel Orientation="Horizontal" Margin="10">
-            <TextBlock Text="Username:" Margin="0,0,10,0"/>
-            <TextBlock Text="{Binding UserName}" x:Name="usernameTextBlock"/>
+        <Grid Margin="10" Width="500">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Username:" Grid.Column="0" Margin="0,0,10,0"/>
+            <TextBlock Text="{Binding UserName}" x:Name="usernameTextBlock" Grid.Column="1"/>
             <Button MinHeight="25" MinWidth="80"
-                    Content="Edit" Click="EditUsername_Click" Margin="10,0,0,0"/>
-        </StackPanel>
+                    Content="Edit" Click="EditUsername_Click" Margin="10,0,0,0" 
+                    Grid.Column="2" HorizontalAlignment="Right"/>
+        </Grid>
 
-        <!-- Display Password with Edit Button (obscured) -->
-        <StackPanel Orientation="Horizontal" Margin="10">
-            <TextBlock Text="Password:" Margin="0,0,10,0"/>
-            <TextBlock Text="*****" x:Name="passwordTextBlock"/>
+        <Grid Margin="10" Width="500">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Password:" Grid.Column="0" Margin="0,0,10,0"/>
+            <TextBlock Text="*****" x:Name="passwordTextBlock" Grid.Column="1"/>
             <Button MinHeight="25" MinWidth="80"
-                    Content="Edit" Click="EditPassword_Click" Margin="10,0,0,0"/>
-        </StackPanel>
+                    Content="Edit" Click="EditPassword_Click" Margin="10,0,0,0" 
+                    Grid.Column="2" HorizontalAlignment="Right"/>
+        </Grid>
 
-        <!-- Back and Delete Account Buttons -->
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" Width="500">
             <Button MinHeight="25" MinWidth="80"
                     Content="Back" Click="BackButton_Click" />
             <Button MinHeight="25" MinWidth="80"
-                    Content="Delete Account" Click="DeleteAccount_Click" Width="121" Margin="286,0,0,0"/>
+                    Content="Delete Account" Click="DeleteAccount_Click" Width="121" Margin="298,0,0,0"/>
         </StackPanel>
     </StackPanel>
 </Window>
