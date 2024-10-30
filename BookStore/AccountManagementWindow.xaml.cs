@@ -50,7 +50,7 @@ namespace BookStoreGUI {
             editDialog.Title = "Edit Username";
             if (editDialog.ShowDialog() == true) {
                 string newUsername = editDialog.InputText;
-                var response = _userData.UpdateAccount(_userData.UserId, newUsername, _userData.Password, nameTextBlock.Text);
+                var response = _userData.UpdateAccount(_userData.UserId, newUsername, _userData.Password, nameTextBlock.Text, true);
                 if (!response.err) {
                     usernameTextBlock.Text = newUsername;
                     MessageBox.Show("Username updated successfully.");
@@ -66,7 +66,7 @@ namespace BookStoreGUI {
             editDialog.Title = "Edit Password";
             if (editDialog.ShowDialog() == true) {
                 string newPassword = editDialog.InputText;
-                var response = _userData.UpdateAccount(_userData.UserId, usernameTextBlock.Text, newPassword, nameTextBlock.Text);
+                var response = _userData.UpdateAccount(_userData.UserId, usernameTextBlock.Text, newPassword, nameTextBlock.Text, false);
                 if (!response.err) {
                     MessageBox.Show("Password updated successfully.");
                 }

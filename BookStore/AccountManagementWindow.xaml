@@ -42,7 +42,7 @@
             <Button MinHeight="25" MinWidth="80"
                     Content="Back" Click="BackButton_Click" />
             <Button MinHeight="25" MinWidth="80"
-                    Content="Delete Account" Click="DeleteAccount_Click" Width="121" Margin="298,0,0,0"/>
+                    Content="Delete Account" Click="DeleteAccount_Click" Width="121" Margin="299,0,0,0"/>
         </StackPanel>
     </StackPanel>
 </Window>

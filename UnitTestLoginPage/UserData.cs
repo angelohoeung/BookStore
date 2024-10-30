@@ -76,13 +76,13 @@ namespace BookStoreLIB {
             }
         }
 
-        public Response UpdateAccount(int userId, string userName, string password, string fullName) {
+        public Response UpdateAccount(int userId, string userName, string password, string fullName, bool isUsernameUpdate) {
             //Check if the username exists
-            DataSet dscheck = new DALAccount().GetAccountInfoByName(userName);
-
-            if (dscheck.Tables["Accounts"].Rows.Count > 0)
-            {
-                return new Response() { message = "The username has already existed", err = true};
+            if (isUsernameUpdate) {
+                DataSet dscheck = new DALAccount().GetAccountInfoByName(userName);
+                if (dscheck.Tables["Accounts"].Rows.Count > 0) {
+                    return new Response() { message = "The username has already existed", err = true };
+                }
             }
 
             if (CheckBlankPw(password) || CheckPwStartsWithNonLetter(password) || CheckPwLength(password) || fullName.Length < 6)
