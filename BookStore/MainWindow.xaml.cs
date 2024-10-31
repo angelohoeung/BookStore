@@ -79,19 +79,45 @@ namespace BookStoreGUI {
         }
         private void chechoutButton_Click(object sender, RoutedEventArgs e)
         {
+            //Need to check if the shopping cart is empty
+
             int orderId;
             orderId = bookOrder.PlaceOrder(userData.UserId);
             MessageBox.Show("Your order has been placed. Your order id is " +
             orderId.ToString());
         }
 
-        private void EditCommand(object sender, RoutedEventArgs e)
+        private void EditMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (orderListView.SelectedItem != null)
             {
                 var selectedItem = orderListView.SelectedItem;
                 // Implement edit logic for the selected item
-                MessageBox.Show($"Editing item with ISBN: {(selectedItem as OrderItem)?.BookID}");
+                //MessageBox.Show($"Editing item with ISBN: {(selectedItem as OrderItem)?.BookID}");
+                EditOrderItemDialog editOrderdialog = new EditOrderItemDialog();
+
+                editOrderdialog.isbnTextBox.Text = (selectedItem as OrderItem)?.BookID;
+                editOrderdialog.titleTextBox.Text = (selectedItem as OrderItem)?.BookTitle;
+                editOrderdialog.priceTextBox.Text = (selectedItem as OrderItem)?.UnitPrice.ToString();
+                editOrderdialog.quantityTextBox.Text = (selectedItem as OrderItem)?.Quantity.ToString();
+                editOrderdialog.Owner = this;
+                editOrderdialog.ShowDialog();
+                
+                if(editOrderdialog.DialogResult == true)
+                {
+                    //TODO: Check for invalid inputs
+                    if(Int32.Parse(editOrderdialog.quantityTextBox.Text) > 0)
+                    {
+                        //The AddItem method will update the quantity
+                        bookOrder.SetQuantity((selectedItem as OrderItem),Int32.Parse(editOrderdialog.quantityTextBox.Text));
+                    }
+                    else
+                    {
+                        //Remove
+                        bookOrder.RemoveItem((selectedItem as OrderItem).BookID);
+                    }
+                }
+
             }
         }
 
@@ -100,8 +126,9 @@ namespace BookStoreGUI {
             if (orderListView.SelectedItem != null)
             {
                 var selectedItem = orderListView.SelectedItem;
-                // Implement delete logic for the selected item
-                MessageBox.Show($"Deleting item with ISBN: {(selectedItem as OrderItem)?.BookID}");
+
+                bookOrder.RemoveItem((selectedItem as OrderItem)?.BookID);
+                //MessageBox.Show($"Deleting item with ISBN: {(selectedItem as OrderItem)?.BookID}");
             }
         }
     }

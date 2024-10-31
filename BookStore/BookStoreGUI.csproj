@@ -76,6 +76,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EditOrderItemDialog.xaml.cs">
+      <DependentUpon>EditOrderItemDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LoginDialog.xaml.cs">
       <DependentUpon>LoginDialog.xaml</DependentUpon>
     </Compile>
@@ -129,6 +132,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="EditOrderItemDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="LoginDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
