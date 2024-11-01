@@ -92,7 +92,6 @@ namespace BookStoreGUI {
             if (orderListView.SelectedItem != null)
             {
                 var selectedItem = orderListView.SelectedItem;
-                // Implement edit logic for the selected item
                 //MessageBox.Show($"Editing item with ISBN: {(selectedItem as OrderItem)?.BookID}");
                 EditOrderItemDialog editOrderdialog = new EditOrderItemDialog();
 
@@ -108,12 +107,11 @@ namespace BookStoreGUI {
                     //TODO: Check for invalid inputs
                     if(Int32.Parse(editOrderdialog.quantityTextBox.Text) > 0)
                     {
-                        //The AddItem method will update the quantity
                         bookOrder.SetQuantity((selectedItem as OrderItem),Int32.Parse(editOrderdialog.quantityTextBox.Text));
                     }
                     else
                     {
-                        //Remove
+                        //Remove item
                         bookOrder.RemoveItem((selectedItem as OrderItem).BookID);
                     }
                 }
