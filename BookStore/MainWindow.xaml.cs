@@ -85,9 +85,10 @@ namespace BookStoreGUI {
                 if (pw.DialogResult == true) {
                     OrderConfirmation conf = new OrderConfirmation(bookOrder.OrderItemList) { Owner = this };
                     conf.ShowDialog();
-                    //if (conf.DialogResult == true) {
-
-                    //}
+                    if (conf.DialogResult == true) {
+                        var orderId = bookOrder.PlaceOrder(userData.UserId);
+                        this.statusTextBlock.Text = $"Order placed successfully. ID: {orderId}";
+                    }
                 }
             }
             

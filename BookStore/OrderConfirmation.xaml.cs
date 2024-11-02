@@ -26,7 +26,7 @@ namespace BookStoreGUI {
             this.items = items;
         }
         private void WindowLoaded(object sender, RoutedEventArgs e) {
-            UpdateWindow(this.items);
+            UpdateWindow(items);
         }
         private void OkButton_Click(object sender, RoutedEventArgs e) {
             this.DialogResult = true;
