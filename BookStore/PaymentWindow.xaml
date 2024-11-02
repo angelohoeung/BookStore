@@ -24,19 +24,19 @@
         </TextBlock>
         <Label Grid.Column="0" Grid.Row="1" Margin="2,2,2,2" Content="Card Number:"></Label>
         <TextBox Name="cardNumberTextBox" Grid.Column="1"
-             Grid.Row="1" Margin="2,0,10,0" Grid.ColumnSpan="2" IsEnabled="False" VerticalContentAlignment="Bottom" VerticalAlignment="Center" Height="23"/>
+             Grid.Row="1" Margin="2,0,10,0" Grid.ColumnSpan="2" VerticalContentAlignment="Bottom" VerticalAlignment="Center" Height="23"/>
         <Label Grid.Column="0" Grid.Row="2" Margin="2,2.2" Content="Expiration (MM/YY):"></Label>
         <TextBox Name="expirationDateTextBox" Grid.Column="1"
-             Grid.Row="2" Margin="2,0,193,0" Grid.ColumnSpan="2" IsEnabled="False" VerticalContentAlignment="Bottom" VerticalAlignment="Center" Height="23"/>
+             Grid.Row="2" Margin="2,0,193,0" Grid.ColumnSpan="2" VerticalContentAlignment="Bottom" VerticalAlignment="Center" Height="23"/>
         <Label Grid.Column="0" Grid.Row="3" Margin="2,2,2,2" Content="Security Code" ></Label>
         <TextBox Name="securityCodeTextBox" Grid.Column="1"
              Grid.Row="3" MinWidth="80" VerticalContentAlignment="Bottom" VerticalAlignment="Center" Height="24" Grid.ColumnSpan="2" Margin="2,0,193,0"/>
         <StackPanel Grid.Column="0" Grid.ColumnSpan="3"
                 Grid.Row="4" Orientation="Horizontal"
                 HorizontalAlignment="Right"  Width="187" Margin="0,5,117,71" Grid.RowSpan="2">
-            <Button Name="submitButton" Click="submitButton_Click" IsDefault="True"
+            <Button Name="submitButton" Click="SubmitButton_Click" IsDefault="True"
                 MinWidth="80" Margin="12,10,5,17.8" MaxHeight="23" MaxWidth="23">Submit</Button>
-            <Button Name="cancelButton" Click="cancelButton_Click" IsCancel="True"
+            <Button Name="cancelButton" Click="CancelButton_Click" IsCancel="True"
                 MinWidth="80" Margin="5,10,5,17.8" MaxHeight="23" MaxWidth="23">Cancel</Button>
         </StackPanel>
         <TextBlock x:Name="errorMessage" Text="" Grid.Row="5" Margin="60,2,81,2" FontSize="12 px" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Red">

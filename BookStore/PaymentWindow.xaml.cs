@@ -21,19 +21,26 @@ namespace BookStoreGUI {
             InitializeComponent();
         }
 
-        public void submitButton_Click(object sender, RoutedEventArgs e) {
-
+        public void SubmitButton_Click(object sender, RoutedEventArgs e) {
+            var cardNumber = cardNumberTextBox.Text;
+            var expirationDate = expirationDateTextBox.Text;
+            var securityCode = securityCodeTextBox.Text;
+            if (IsCardNumberValid(cardNumber) && IsExpirationDateValid(expirationDate) && IsSecurityCodeValid(securityCode)) {
+                this.DialogResult = true;
+            } else {
+                this.DialogResult = false;
+            }
         }
 
-        public void cancelButton_Click(object sender, RoutedEventArgs e) {
+        public void CancelButton_Click(object sender, RoutedEventArgs e) {
             this.Close();
         }
 
-        private bool isCardNumberValid(string cardNumber) {
+        private bool IsCardNumberValid(string cardNumber) {
             return cardNumber.Length == 16 && cardNumber.All(char.IsDigit);
         }
 
-        private bool isExpirationDateValid(string expirationDate) {
+        private bool IsExpirationDateValid(string expirationDate) {
             if (expirationDate == null || expirationDate == "" || !expirationDate.Contains("/") || expirationDate.Length != 5) {
                 return false;
             }
@@ -50,7 +57,7 @@ namespace BookStoreGUI {
             return expiration >= currentDate;
         }
 
-        private bool isSecurityCodeValid(string securityCode) {
+        private bool IsSecurityCodeValid(string securityCode) {
             return securityCode.Length == 3 && securityCode.All(char.IsDigit);
         }
 

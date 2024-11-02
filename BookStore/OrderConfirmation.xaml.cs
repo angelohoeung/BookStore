@@ -1,6 +1,8 @@
 ﻿using BookStoreLIB;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,20 +20,31 @@ namespace BookStoreGUI {
     /// Interaction logic for Window1.xaml
     /// </summary>
     public partial class OrderConfirmation : Window {
-        public OrderConfirmation() {
+        private readonly ObservableCollection<OrderItem> items;
+        public OrderConfirmation(ObservableCollection<OrderItem> items) {
             InitializeComponent();
+            this.items = items;
+        }
+        private void WindowLoaded(object sender, RoutedEventArgs e) {
+            UpdateWindow(this.items);
+        }
+        private void OkButton_Click(object sender, RoutedEventArgs e) {
+            this.DialogResult = true;
+        }
+        private void CancelButton_Click(object sender, RoutedEventArgs e) {
+            this.Close(); 
         }
 
-        private void updateWindow(OrderItem[] items) {
+        private void UpdateWindow(ObservableCollection<OrderItem> items) {
             double total = 0;
-            string orderSummary = string.Empty;
+            StringBuilder orderSummaryBuilder = new StringBuilder();
 
             foreach (OrderItem item in items) {
                 total += item.SubTotal;
-                orderSummary += item.ToString() + "\n";
+                orderSummaryBuilder.AppendLine($"{item.Quantity}x {item.BookTitle} (ISBN: {item.BookID})\n");
             }
-
-
+            orderSummaryTextBlock.Text = orderSummaryBuilder.ToString();
+            bookTotal.Text = $"Total: ${total}";
         }
     }
 }

@@ -79,10 +79,22 @@ namespace BookStoreGUI {
         }
         private void chechoutButton_Click(object sender, RoutedEventArgs e)
         {
-            int orderId;
-            orderId = bookOrder.PlaceOrder(userData.UserId);
-            MessageBox.Show("Your order has been placed. Your order id is " +
-            orderId.ToString());
+            if (userData.UserId > 0) {
+                PaymentWindow pw = new PaymentWindow() { Owner = this };
+                pw.ShowDialog();
+                if (pw.DialogResult == true) {
+                    OrderConfirmation conf = new OrderConfirmation(bookOrder.OrderItemList) { Owner = this };
+                    conf.ShowDialog();
+                    //if (conf.DialogResult == true) {
+
+                    //}
+                }
+            }
+            
+            //int orderId;
+            //orderId = bookOrder.PlaceOrder(userData.UserId);
+            //MessageBox.Show("Your order has been placed. Your order id is " +
+            //orderId.ToString());
         }
     }
 }
