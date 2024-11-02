@@ -103,9 +103,14 @@ namespace BookStoreGUI {
         }
 
         private void AccountButton_Click(object sender, RoutedEventArgs e) {
-            AccountManagementWindow accountWindow = new AccountManagementWindow(userData);
-            accountWindow.Owner = this;
-            accountWindow.ShowDialog();
+            if (userData.UserId > 0) {
+                AccountManagementWindow accountWindow = new AccountManagementWindow(userData);
+                accountWindow.Owner = this;
+                accountWindow.ShowDialog();
+            }
+            else {
+                MessageBox.Show("You are not logged in. Please log in to access account management.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }
