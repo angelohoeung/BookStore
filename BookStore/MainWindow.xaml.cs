@@ -31,8 +31,7 @@ namespace BookStoreGUI {
             dlg.Owner = this;
             dlg.ShowDialog();
             // Process data entered by user if dialog box is accepted
-            if (dlg.DialogResult == true)
-            {
+            if (dlg.DialogResult == true) {
                 if (userData.LogIn(dlg.nameTextBox.Text, dlg.passwordTextBox.Password) == true)
                     this.statusTextBlock.Text = "You are logged in as User #" +
                     userData.UserId;
@@ -64,8 +63,7 @@ namespace BookStoreGUI {
             orderItemDialog.priceTextBox.Text = selectedRow.Row.ItemArray[4].ToString();
             orderItemDialog.Owner = this;
             orderItemDialog.ShowDialog();
-            if (orderItemDialog.DialogResult == true)
-            {
+            if (orderItemDialog.DialogResult == true) {
                 string isbn = orderItemDialog.isbnTextBox.Text;
                 string title = orderItemDialog.titleTextBox.Text;
                 double unitPrice = double.Parse(orderItemDialog.priceTextBox.Text);
@@ -82,13 +80,24 @@ namespace BookStoreGUI {
                 bookOrder.RemoveItem(selectedOrderItem.BookID);
             }
         }
+        private void chechoutButton_Click(object sender, RoutedEventArgs e) {
+            if (userData.UserId > 0 && bookOrder.OrderItemList.Count() > 0) {
+                PaymentWindow pw = new PaymentWindow() { Owner = this };
+                pw.ShowDialog();
+                if (pw.DialogResult == true) {
+                    OrderConfirmation conf = new OrderConfirmation(bookOrder.OrderItemList) { Owner = this };
+                    conf.ShowDialog();
+                    if (conf.DialogResult == true) {
+                        var orderId = bookOrder.PlaceOrder(userData.UserId);
+                        this.statusTextBlock.Text = $"Order placed successfully. ID: {orderId}";
+                    }
+                }
+            }
 
-        private void chechoutButton_Click(object sender, RoutedEventArgs e)
-        {
-            int orderId;
-            orderId = bookOrder.PlaceOrder(userData.UserId);
-            MessageBox.Show("Your order has been placed. Your order id is " +
-            orderId.ToString());
+            //int orderId;
+            //orderId = bookOrder.PlaceOrder(userData.UserId);
+            //MessageBox.Show("Your order has been placed. Your order id is " +
+            //orderId.ToString());
         }
 
         private void AccountButton_Click(object sender, RoutedEventArgs e) {

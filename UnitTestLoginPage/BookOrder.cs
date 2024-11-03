@@ -54,17 +54,18 @@ namespace BookStoreLIB
                 return total;
             }
         }
-        public int PlaceOrder(int userID)
-        {
-            string xmlOrder;
-            xmlOrder = "<Order UserID='" + userID.ToString() + "'>";
-            foreach (var item in orderItemList)
-            {
-                xmlOrder += item.ToString();
-            }
-            xmlOrder += "</Order>";
+        public int PlaceOrder(int userID) {
+            //string xmlOrder;
+            //xmlOrder = "<Order UserID='" + userID.ToString() + "'>";
+            //foreach (var item in orderItemList)
+            //{
+            //    xmlOrder += item.ToString();
+            //}
+            //xmlOrder += "</Order>";
+            //DALOrder dbOrder = new DALOrder();
+            //return dbOrder.Proceed2Order(xmlOrder);
             DALOrder dbOrder = new DALOrder();
-            return dbOrder.Proceed2Order(xmlOrder);
+            return dbOrder.CreateOrder(userID, orderItemList);
         }
     }
 }
