@@ -135,15 +135,25 @@ namespace BookStoreGUI {
                 
                 if(editOrderdialog.DialogResult == true)
                 {
-                    //TODO: Check for invalid inputs
-                    if(Int32.Parse(editOrderdialog.quantityTextBox.Text) > 0)
+                    if(Int32.TryParse(editOrderdialog.quantityTextBox.Text, out int quantity))
                     {
-                        bookOrder.SetQuantity((selectedItem as OrderItem),Int32.Parse(editOrderdialog.quantityTextBox.Text));
+                        if(quantity > 0)
+                        {
+                            bookOrder.SetQuantity((selectedItem as OrderItem), quantity);
+                        }
+                        else if(quantity == 0)
+                        {
+                            bookOrder.RemoveItem((selectedItem as OrderItem)?.BookID);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Please enter a non-negative quantity");
+                        }
                     }
                     else
                     {
                         //Remove item
-                        bookOrder.RemoveItem((selectedItem as OrderItem).BookID);
+                        MessageBox.Show("Please enter a valid quantity");
                     }
                 }
 
