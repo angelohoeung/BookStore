@@ -9,11 +9,11 @@ namespace BookStoreLIB {
         int actualUserId;
         [TestMethod]
         public void TestMethod1() { // valid
-            inputName = "hutzz";
-            inputPassword = "zh123456";
+            inputName = "hutz";
+            inputPassword = "zh12345";
             bool actualReturn = userData.LogIn(inputName, inputPassword);
             bool expectedReturn = true;
-            int expectedUserId = 9;
+            int expectedUserId = 8;
             actualUserId = userData.UserId;
             Assert.AreEqual(expectedReturn, actualReturn);
             Assert.AreEqual(expectedUserId, actualUserId);
@@ -51,14 +51,81 @@ namespace BookStoreLIB {
             Assert.AreEqual(expectedReturn, actualReturn);
             Assert.AreEqual(expectedUserId, actualUserId);
         }
+
+        [TestMethod]
+        public void TestPaymentWindowValid1()       //All valid inputs
+        {
+            string inputCardNumber = "4242424242424242";
+            string securityCode = "333";
+            string expiryDate = "02/26";
+            PaymentWindow paymentWindow = new PaymentWindow();
+            bool cardNumberValidResult = paymentWindow.IsCardNumberValid(inputCardNumber);
+            bool securityCodeValidResult = paymentWindow.IsSecurityCodeValid(securityCode);
+            bool expirationValidResult = paymentWindow.IsExpirationDateValid(expiryDate);
+            bool expectedCardNumberResult = true;
+            bool expectedSecurityCodeValidResult = true;
+            bool expectedExpirationValidResult = true;
+            Assert.IsTrue(cardNumberValidResult);
+            Assert.IsTrue(securityCodeValidResult);
+            Assert.IsTrue(expirationValidResult);
+        }
+        [TestMethod]
+        public void TestPaymentWindowValid2()   //Invalid Card number
+        {
+            string inputCardNumber = "4242424242424242asfasd";
+            string securityCode = "333";
+            string expiryDate = "02/26";
+            PaymentWindow paymentWindow = new PaymentWindow();
+            bool cardNumberValidResult = paymentWindow.IsCardNumberValid(inputCardNumber);
+            bool securityCodeValidResult = paymentWindow.IsSecurityCodeValid(securityCode);
+            bool expirationValidResult = paymentWindow.IsExpirationDateValid(expiryDate);
+            bool expectedCardNumberResult = true;
+            bool expectedSecurityCodeValidResult = true;
+            bool expectedExpirationValidResult = true;
+            Assert.IsFalse(cardNumberValidResult);
+            Assert.IsTrue(securityCodeValidResult);
+            Assert.IsTrue(expirationValidResult);
+        }
+        [TestMethod]
+        public void TestPaymentWindowValid3()   //Invalid security code
+        {
+            string inputCardNumber = "4242424242424242";
+            string securityCode = "3533";
+            string expiryDate = "02/26";
+            PaymentWindow paymentWindow = new PaymentWindow();
+            bool cardNumberValidResult = paymentWindow.IsCardNumberValid(inputCardNumber);
+            bool securityCodeValidResult = paymentWindow.IsSecurityCodeValid(securityCode);
+            bool expirationValidResult = paymentWindow.IsExpirationDateValid(expiryDate);
+            bool expectedCardNumberResult = true;
+            bool expectedSecurityCodeValidResult = true;
+            bool expectedExpirationValidResult = true;
+            Assert.IsTrue(cardNumberValidResult);
+            Assert.IsFalse(securityCodeValidResult);
+            Assert.IsTrue(expirationValidResult);
+        }
+
+        public void TestPaymentWindowValid4() {
+            string inputCardNumber = "4242424242424242";
+            string securityCode = "333";
+            string expiryDate = "02/23";
+            PaymentWindow paymentWindow = new PaymentWindow();
+            bool cardNumberValidResult = paymentWindow.IsCardNumberValid(inputCardNumber);
+            bool securityCodeValidResult = paymentWindow.IsSecurityCodeValid(securityCode);
+            bool expirationValidResult = paymentWindow.IsExpirationDateValid(expiryDate);
+            bool expectedCardNumberResult = true;
+            bool expectedSecurityCodeValidResult = true;
+            bool expectedExpirationValidResult = true;
+            Assert.IsTrue(cardNumberValidResult);
+            Assert.IsTrue(securityCodeValidResult);
+            Assert.IsFalse(expirationValidResult);
+        }
+        [TestMethod]
+        public void TestPlaceOrder1() {        //Valid
+            BookOrder bookOrder = new BookOrder();
+            bookOrder.AddItem(new OrderItem("0321278658", "Extreme Programming Explained: Embrace Change", 44.63, 1));
+            var orderId = bookOrder.PlaceOrder(1);
+            Assert.IsTrue(orderId > 1);
+        }
+
     }
 }
-
-// 6 character password starting with letter and at least one number (valid)
-// 7 character password starting with letter and at least one number (valid)
-// 5 character password starting with letter and at least one number (invalid)
-// 6+ character password containing letters and numbers, but starting with a number (invalid)
-// 6+ character password containing only letters (invalid)
-// 6+ character password containing only numbers (invalid)
-// blank password (invalid)
-// 6+ character password starting with letter and at least one number that also contains at least one non-letter/non-numeric character (invalid)

@@ -24,14 +24,12 @@ namespace BookStoreGUI {
         DataSet dsBookCat;
         UserData userData;
         BookOrder bookOrder;
-        private void loginButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void loginButton_Click(object sender, RoutedEventArgs e) {
             LoginDialog dlg = new LoginDialog();
             dlg.Owner = this;
             dlg.ShowDialog();
             // Process data entered by user if dialog box is accepted
-            if (dlg.DialogResult == true)
-            {
+            if (dlg.DialogResult == true) {
                 if (userData.LogIn(dlg.nameTextBox.Text, dlg.passwordTextBox.Password) == true)
                     this.statusTextBlock.Text = "You are logged in as User #" +
                     userData.UserId;
@@ -41,8 +39,7 @@ namespace BookStoreGUI {
         }
         private void exitButton_Click(object sender, RoutedEventArgs e) { this.Close(); }
         public MainWindow() { InitializeComponent(); }
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
+        private void Window_Loaded(object sender, RoutedEventArgs e) {
             BookCatalog bookCat = new BookCatalog();
             dsBookCat = bookCat.GetBookInfo();
             this.DataContext = dsBookCat.Tables["Category"];
@@ -50,8 +47,7 @@ namespace BookStoreGUI {
             userData = new UserData();
             this.orderListView.ItemsSource = bookOrder.OrderItemList;
         }
-        private void addButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void addButton_Click(object sender, RoutedEventArgs e) {
             OrderItemDialog orderItemDialog = new OrderItemDialog();
             DataRowView selectedRow;
             selectedRow = (DataRowView)this.ProductsDataGrid.SelectedItems[0];
@@ -60,8 +56,7 @@ namespace BookStoreGUI {
             orderItemDialog.priceTextBox.Text = selectedRow.Row.ItemArray[4].ToString();
             orderItemDialog.Owner = this;
             orderItemDialog.ShowDialog();
-            if (orderItemDialog.DialogResult == true)
-            {
+            if (orderItemDialog.DialogResult == true) {
                 string isbn = orderItemDialog.isbnTextBox.Text;
                 string title = orderItemDialog.titleTextBox.Text;
                 double unitPrice = double.Parse(orderItemDialog.priceTextBox.Text);
@@ -69,17 +64,14 @@ namespace BookStoreGUI {
                 bookOrder.AddItem(new OrderItem(isbn, title, unitPrice, quantity));
             }
         }
-        private void removeButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (this.orderListView.SelectedItem != null)
-            {
+        private void removeButton_Click(object sender, RoutedEventArgs e) {
+            if (this.orderListView.SelectedItem != null) {
                 var selectedOrderItem = this.orderListView.SelectedItem as OrderItem;
                 bookOrder.RemoveItem(selectedOrderItem.BookID);
             }
         }
-        private void chechoutButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (userData.UserId > 0) {
+        private void chechoutButton_Click(object sender, RoutedEventArgs e) {
+            if (userData.UserId > 0 && bookOrder.OrderItemList.Count() > 0) {
                 PaymentWindow pw = new PaymentWindow() { Owner = this };
                 pw.ShowDialog();
                 if (pw.DialogResult == true) {
@@ -91,7 +83,7 @@ namespace BookStoreGUI {
                     }
                 }
             }
-            
+
             //int orderId;
             //orderId = bookOrder.PlaceOrder(userData.UserId);
             //MessageBox.Show("Your order has been placed. Your order id is " +

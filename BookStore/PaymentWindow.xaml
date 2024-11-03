@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BookStoreGUI"
         mc:Ignorable="d"
-        Title="PaymentWindow" Height="285" Width="400">
+        Title="PaymentWindow" Height="300" Width="450">
     <Grid Margin="0,0,-0.4,-0.8">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="125" />
@@ -20,11 +20,11 @@
             <RowDefinition Height="66" />
             <RowDefinition Height="76" />
         </Grid.RowDefinitions>
-        <TextBlock Text="Enter your payment card information" Grid.Row="0" Margin="60,2,81,2" FontSize="16 px" Grid.ColumnSpan="3">
+        <TextBlock Text="Enter your payment card information" Grid.Row="0" Margin="60,2,81,2" FontSize="14 px" Grid.ColumnSpan="3" TextAlignment="Center">
         </TextBlock>
         <Label Grid.Column="0" Grid.Row="1" Margin="2,2,2,2" Content="Card Number:"></Label>
         <TextBox Name="cardNumberTextBox" Grid.Column="1"
-             Grid.Row="1" Margin="2,0,10,0" Grid.ColumnSpan="2" VerticalContentAlignment="Bottom" VerticalAlignment="Center" Height="23"/>
+             Grid.Row="1" Margin="2,0,99,0" Grid.ColumnSpan="2" VerticalContentAlignment="Bottom" VerticalAlignment="Center" Height="24"/>
         <Label Grid.Column="0" Grid.Row="2" Margin="2,2.2" Content="Expiration (MM/YY):"></Label>
         <TextBox Name="expirationDateTextBox" Grid.Column="1"
              Grid.Row="2" Margin="2,0,193,0" Grid.ColumnSpan="2" VerticalContentAlignment="Bottom" VerticalAlignment="Center" Height="23"/>
