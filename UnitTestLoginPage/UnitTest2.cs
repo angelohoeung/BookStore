@@ -25,17 +25,6 @@ namespace BookStoreLIB
         [TestMethod]
         public void TestMethod2()
         {
-
-            //OrderItem item = new OrderItem("1234567890", "Test Book", 10.99, 0);
-
-            //bookOrder.AddItem(item);
-
-            //Assert.AreEqual(0, bookOrder.OrderItemList.Count);
-        }
-
-        [TestMethod]
-        public void TestMethod3()
-        {
             OrderItem item = new OrderItem("1234567890", "Test Book", 15.99, 1);
             bookOrder.AddItem(item);
 
@@ -48,7 +37,7 @@ namespace BookStoreLIB
         }
 
         [TestMethod]
-        public void TestMethod4()
+        public void TestMethod3()
         {
             OrderItem item = new OrderItem("1234567890", "Test Book", 10.99, 1);
             bookOrder.AddItem(item);
@@ -61,20 +50,7 @@ namespace BookStoreLIB
         }
 
         [TestMethod]
-        public void TestMethod5()
-        {
-            //OrderItem item = new OrderItem("1234567890", "Test Book", 15.99, 1);
-            //bookOrder.AddItem(item);
-
-            //bookOrder.SetQuantity(item, -1);
-
-            //Assert.AreEqual(0, bookOrder.OrderItemList.Count);
-
-
-        }
-
-        [TestMethod]
-        public void TestMethod6()
+        public void TestMethod4()
         {
             OrderItem item = new OrderItem("1234567890", "Test Book", 10.99, 1);
             OrderItem item2 = new OrderItem("123123123", "Dictionary", 7.05, 1);
@@ -85,24 +61,6 @@ namespace BookStoreLIB
             Assert.AreEqual(18.04, bookOrder.GetOrderTotal());
 
         }
-
-
-        [TestMethod]
-        public void TestMethod7()
-        {
-            
-
-
-        }
-
-        [TestMethod]
-        public void TestMethod8()
-        {
-           
-
-
-        }
-
         
     }
 }
