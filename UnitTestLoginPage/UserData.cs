@@ -57,8 +57,7 @@ namespace BookStoreLIB {
         {
             DALAccount dalAccount = new DALAccount();
             DataSet dsAccount = dalAccount.GetAccountInfo(userId);
-            if(dsAccount==null)
-            {
+            if (dsAccount == null || dsAccount.Tables["Accounts"].Rows.Count == 0) {
                 return new Response()
                 {
                     message = "Some thing has happens during the fetching account data process",
