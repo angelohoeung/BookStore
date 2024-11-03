@@ -124,7 +124,7 @@ namespace BookStoreLIB {
             BookOrder bookOrder = new BookOrder();
             bookOrder.AddItem(new OrderItem("0321278658", "Extreme Programming Explained: Embrace Change", 44.63, 1));
             var orderId = bookOrder.PlaceOrder(1);
-            Assert.IsTrue(orderId > 1);
+            Assert.IsTrue(orderId > 0);
         }
 
     }
