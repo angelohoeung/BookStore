@@ -52,17 +52,6 @@ namespace BookStoreGUI {
             bookOrder = new BookOrder();
             userData = new UserData();
             this.orderListView.ItemsSource = bookOrder.OrderItemList;
-
-            //Testing for Account DAL
-            //int userId = 2;
-            //DataSet dsAccount = (new DALAccount()).GetAccountInfo(userId);
-            //MessageBox.Show(dsAccount.Tables["Accounts"].Rows[0]["UserName"].ToString());
-
-            //Testing for Account Update
-            //MessageBox.Show(new UserData().UpdateAccount(10, "patel", "testing password", "hihihi").message);
-            //MessageBox.Show(new UserData().DeletedAccount(10).message);
-
-            //this.DataContext = a.GetAccountInfo().Tables["Account"];
         }
 
         private void addButton_Click(object sender, RoutedEventArgs e)
