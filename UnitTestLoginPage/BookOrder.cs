@@ -9,7 +9,7 @@ namespace BookStoreLIB
 {
     public class BookOrder
     {
-        ObservableCollection<OrderItem> orderItemList = new
+        ObservableCollection<OrderItem> orderItemList  = new
             ObservableCollection<OrderItem>();
         
         public ObservableCollection<OrderItem> OrderItemList

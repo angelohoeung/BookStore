@@ -77,11 +77,13 @@
                 </ListView>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center" Width="484">
+                
                 <TextBlock x:Name="totalTextBlock" FontSize="16" MinHeight="25" MinWidth="80" 
            DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
-    <Run Text="Total: $"/>
-    <Run Text="{Binding TotalAmount, StringFormat={}{0:F2}, Mode=OneWay}"/>
+                    <Run Text="Total: $"/>
+                    <Run Text="{Binding TotalAmount, StringFormat={}{0:F2}, Mode=OneWay}"/>
                 </TextBlock>
+                
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
                 <Button x:Name="addButton" MinHeight="25" MinWidth="80"
