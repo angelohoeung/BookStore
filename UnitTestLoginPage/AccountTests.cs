@@ -65,6 +65,28 @@ namespace BookStoreLIB {
         }
 
         [TestMethod]
+        public void UpdateAccount_InvalidUserId_ShouldReturnError() {
+            var response = userData.UpdateAccount(2000, "newuser", "tu1234", "Test User", false);
+            Assert.IsTrue(response.err);
+            Assert.AreEqual("No account found with the specified UserID", response.message);
+        }
+
+        [TestMethod]
+        public void GetAccountInfoByName_ValidUsername_ShouldReturnAccountInfo() {
+            var response = dalAccount.GetAccountInfoByName("testuser");
+            Assert.IsNotNull(response);
+            Assert.AreEqual(1, response.Tables["Accounts"].Rows.Count);
+            Assert.AreEqual("testuser", response.Tables["Accounts"].Rows[0]["UserName"]);
+        }
+
+        [TestMethod]
+        public void GetAccountInfoByName_InvalidUsername_ShouldReturnNull() {
+            var response = dalAccount.GetAccountInfoByName("nonexistentuser");
+            Assert.IsNotNull(response);
+            Assert.AreEqual(0, response.Tables["Accounts"].Rows.Count);
+        }
+
+        [TestMethod]
         public void UpdateAccount_FullNameLessThanSixCharacters_ShouldReturnError() {
             var response = userData.UpdateAccount(1000, "testuser", "tu1234", "John", false);
             Assert.IsTrue(response.err);

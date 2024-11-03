@@ -76,6 +76,11 @@ namespace BookStoreLIB {
         }
 
         public Response UpdateAccount(int userId, string userName, string password, string fullName, bool isUsernameUpdate) {
+            // Check if the user ID exists
+            if (new DALAccount().GetAccountInfo(userId)?.Tables["Accounts"].Rows.Count == 0) {
+                return new Response() { message = "No account found with the specified UserID", err = true };
+            }
+
             //Check if the username exists
             if (isUsernameUpdate) {
                 DataSet dscheck = new DALAccount().GetAccountInfoByName(userName);
@@ -88,7 +93,7 @@ namespace BookStoreLIB {
             {
                 string msg = "Username and password does not satisfy all conditions";
                 return new Response() { message = msg, err = true };
-            } 
+            }
             else
             {
                 DALAccount dalAccount = new DALAccount();
