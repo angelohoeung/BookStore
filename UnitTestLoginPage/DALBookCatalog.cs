@@ -26,12 +26,14 @@ namespace BookStoreLIB
                 SqlDataAdapter daCatagory = new SqlDataAdapter(cmdSelCategory);
                 dsBooks = new DataSet("Books");
                 daCatagory.Fill(dsBooks, "Category");            //Get category info
+
                 String strSQL2 = "Select ISBN, CategoryID, Title," +
                     "Author, Price, Year, Edition, Publisher from BookData";
                 SqlCommand cmdSelBook = new SqlCommand(strSQL2, conn);
                 SqlDataAdapter daBook = new SqlDataAdapter(cmdSelBook);
                 daBook.Fill(dsBooks, "Books");                  //Get Books info
-                DataRelation drCat_Book = new DataRelation("drCat_Book",
+
+                DataRelation drCat_Book = new DataRelation ("drCat_Book",
                 dsBooks.Tables["Category"].Columns["CategoryID"],
                 dsBooks.Tables["Books"].Columns["CategoryID"], false);
                 dsBooks.Relations.Add(drCat_Book);       //Set up the table relation

@@ -24,6 +24,7 @@ namespace BookStoreGUI {
         DataSet dsBookCat;
         UserData userData;
         BookOrder bookOrder;
+
         private void loginButton_Click(object sender, RoutedEventArgs e)
         {
             LoginDialog dlg = new LoginDialog();
@@ -39,8 +40,10 @@ namespace BookStoreGUI {
                     this.statusTextBlock.Text = "Your login failed. Please try again.";
             }
         }
+
         private void exitButton_Click(object sender, RoutedEventArgs e) { this.Close(); }
         public MainWindow() { InitializeComponent(); }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             BookCatalog bookCat = new BookCatalog();
@@ -50,6 +53,7 @@ namespace BookStoreGUI {
             userData = new UserData();
             this.orderListView.ItemsSource = bookOrder.OrderItemList;
         }
+
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
             OrderItemDialog orderItemDialog = new OrderItemDialog();
@@ -69,6 +73,7 @@ namespace BookStoreGUI {
                 bookOrder.AddItem(new OrderItem(isbn, title, unitPrice, quantity));
             }
         }
+
         private void removeButton_Click(object sender, RoutedEventArgs e)
         {
             if (this.orderListView.SelectedItem != null)
@@ -77,12 +82,24 @@ namespace BookStoreGUI {
                 bookOrder.RemoveItem(selectedOrderItem.BookID);
             }
         }
+
         private void chechoutButton_Click(object sender, RoutedEventArgs e)
         {
             int orderId;
             orderId = bookOrder.PlaceOrder(userData.UserId);
             MessageBox.Show("Your order has been placed. Your order id is " +
             orderId.ToString());
+        }
+
+        private void AccountButton_Click(object sender, RoutedEventArgs e) {
+            if (userData.UserId > 0) {
+                AccountManagementWindow accountWindow = new AccountManagementWindow(userData);
+                accountWindow.Owner = this;
+                accountWindow.ShowDialog();
+            }
+            else {
+                MessageBox.Show("You are not logged in. Please log in to access account management.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }
