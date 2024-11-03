@@ -65,6 +65,20 @@ namespace BookStoreLIB {
         }
 
         [TestMethod]
+        public void UpdateAccount_FullNameLessThanSixCharacters_ShouldReturnError() {
+            var response = userData.UpdateAccount(1000, "testuser", "tu1234", "John", false);
+            Assert.IsTrue(response.err);
+            Assert.AreEqual("Username and password does not satisfy all conditions", response.message);
+        }
+
+        [TestMethod]
+        public void UpdateAccount_FullNameGreaterThanSixCharacters_ShouldUpdateSuccessfully() {
+            var response = userData.UpdateAccount(1000, "testuser", "tu1234", "Test User Updated", false);
+            Assert.IsFalse(response.err);
+            Assert.AreEqual("Updated successfully", response.message);
+        }
+
+        [TestMethod]
         public void UpdateAccount_ExistingUsername_ShouldReturnError() {
             var response = userData.UpdateAccount(2, "jsmith", "js1234", "Jone Smith", true);
             Assert.IsTrue(response.err);
