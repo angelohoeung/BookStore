@@ -69,7 +69,7 @@ namespace BookStoreGUI {
             }
         }
         private void exitButton_Click(object sender, RoutedEventArgs e) { this.Close(); }
-        public MainWindow() { InitializeComponent();}
+        public MainWindow() { InitializeComponent(); }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             BookCatalog bookCat = new BookCatalog();
