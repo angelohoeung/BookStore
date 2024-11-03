@@ -4,6 +4,7 @@
  * **********************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -20,10 +21,38 @@ using BookStoreLIB;
 
 namespace BookStoreGUI {
     /// Interaction logic for MainWindow.xaml
-    public partial class MainWindow : Window {
+    public partial class MainWindow : Window, INotifyPropertyChanged
+    {
         DataSet dsBookCat;
         UserData userData;
         BookOrder bookOrder;
+
+        private decimal totalAmount;
+        public decimal TotalAmount
+        {
+            get { return totalAmount; }
+            set
+            {
+                if (totalAmount != value)
+                {
+                    totalAmount = value;
+                    OnPropertyChanged(nameof(TotalAmount));
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void UpdateTotal()
+        {
+           
+            TotalAmount = bookOrder.OrderItemList.Sum(item => (decimal)item.SubTotal);
+        }
         private void loginButton_Click(object sender, RoutedEventArgs e)
         {
             LoginDialog dlg = new LoginDialog();
@@ -68,6 +97,7 @@ namespace BookStoreGUI {
                 int quantity = int.Parse(orderItemDialog.quantityTextBox.Text);
                 bookOrder.AddItem(new OrderItem(isbn, title, unitPrice, quantity));
             }
+            UpdateTotal();
         }
         private void removeButton_Click(object sender, RoutedEventArgs e)
         {
@@ -76,6 +106,7 @@ namespace BookStoreGUI {
                 var selectedOrderItem = this.orderListView.SelectedItem as OrderItem;
                 bookOrder.RemoveItem(selectedOrderItem.BookID);
             }
+            UpdateTotal();
         }
         private void chechoutButton_Click(object sender, RoutedEventArgs e)
         {
@@ -117,6 +148,7 @@ namespace BookStoreGUI {
                 }
 
             }
+            UpdateTotal();
         }
 
         private void DeleteMenuItem_Click(object sender, RoutedEventArgs e)
