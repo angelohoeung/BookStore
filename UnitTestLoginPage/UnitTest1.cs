@@ -7,6 +7,7 @@ namespace BookStoreLIB {
         UserData userData = new UserData();
         string inputName, inputPassword;
         int actualUserId;
+
         [TestMethod]
         public void TestMethod1() { // valid
             inputName = "hutzz";
@@ -18,6 +19,7 @@ namespace BookStoreLIB {
             Assert.AreEqual(expectedReturn, actualReturn);
             Assert.AreEqual(expectedUserId, actualUserId);
         }
+
         [TestMethod]
         public void TestMethod2() { // blank pw
             inputName = "hutzz";
@@ -29,6 +31,7 @@ namespace BookStoreLIB {
             Assert.AreEqual(expectedReturn, actualReturn);
             Assert.AreEqual(expectedUserId, actualUserId);
         }
+
         [TestMethod]
         public void TestMethod3() { // starts with non-letter
             inputName = "hutzz";
@@ -40,6 +43,7 @@ namespace BookStoreLIB {
             Assert.AreEqual(expectedReturn, actualReturn);
             Assert.AreEqual(expectedUserId, actualUserId);
         }
+
         [TestMethod]
         public void TestMethod4() { // <6 characters
             inputName = "hutzz";
@@ -51,6 +55,8 @@ namespace BookStoreLIB {
             Assert.AreEqual(expectedReturn, actualReturn);
             Assert.AreEqual(expectedUserId, actualUserId);
         }
+
+
     }
 }
 
