@@ -118,9 +118,12 @@ namespace BookStoreLIB
         public bool DeleteAccount (int userId)
         {
             string query = @"
+            DELETE FROM Orders
+            WHERE UserID = @UserId;
+
             DELETE FROM UserData
-            WHERE 
-            UserID = @UserId";
+            WHERE UserID = @UserId;
+            ";
 
             using (SqlCommand command = new SqlCommand(query, conn))
             {
