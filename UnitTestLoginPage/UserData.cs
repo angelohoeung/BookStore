@@ -1,11 +1,20 @@
 ﻿using System;
+using System.Data;
 using System.Diagnostics;
 
 namespace BookStoreLIB {
+    public class Response
+    {
+        public string message = "";
+        public bool err = false;
+        public DataSet data = null;
+    }
+
     public class UserData {
         public int UserId { get; set; }
         public string LoginName { get; set; }
         public string Password { get; set; }
+
         public bool LogIn(string loginName, string password) {
             var dbUser = new DALUserInfo();
             if (CheckBlankPw(password) || CheckPwStartsWithNonLetter(password) || CheckPwLength(password)) {
@@ -43,5 +52,89 @@ namespace BookStoreLIB {
             }
             return false;
         }
+
+        public Response GetAccountInfo (int userId)
+        {
+            DALAccount dalAccount = new DALAccount();
+            DataSet dsAccount = dalAccount.GetAccountInfo(userId);
+            if (dsAccount == null || dsAccount.Tables["Accounts"].Rows.Count == 0) {
+                return new Response()
+                {
+                    message = "Some thing has happens during the fetching account data process",
+                    err = true
+                };
+            }
+            else
+            {
+                return new Response()
+                {
+                    message = "Fetched successfully",
+                    err = false,
+                    data = dsAccount
+                };
+            }
+        }
+
+        public Response UpdateAccount(int userId, string userName, string password, string fullName, bool isUsernameUpdate) {
+            // Check if the user ID exists
+            if (new DALAccount().GetAccountInfo(userId)?.Tables["Accounts"].Rows.Count == 0) {
+                return new Response() { message = "No account found with the specified UserID", err = true };
+            }
+
+            //Check if the username exists
+            if (isUsernameUpdate) {
+                DataSet dscheck = new DALAccount().GetAccountInfoByName(userName);
+                if (dscheck.Tables["Accounts"].Rows.Count > 0) {
+                    return new Response() { message = "The username has already existed", err = true };
+                }
+            }
+
+            if (CheckBlankPw(password) || CheckPwStartsWithNonLetter(password) || CheckPwLength(password) || fullName.Length < 6)
+            {
+                string msg = "Username and password does not satisfy all conditions";
+                return new Response() { message = msg, err = true };
+            }
+            else
+            {
+                DALAccount dalAccount = new DALAccount();
+                bool error = dalAccount.UpdateAccount(userId, userName, password, fullName);
+                return new Response() { message = "Updated successfully", err = false};
+            }
+        }
+
+        public Response DeletedAccount (int userId)
+        {
+            try
+            {
+                DALAccount dlaAccount = new DALAccount();
+                bool result = dlaAccount.DeleteAccount(userId);
+                if (result == true)
+                {
+                    return new Response()
+                    {
+                        message = "Deleted account",
+                        err = false,
+                    };
+            }
+                else
+                {
+                    return new Response()
+                    {
+                        message = "Something happens during the process",
+                        err = true
+                    };
+                }
+
+            }
+            catch (Exception e)
+            {
+                return new Response()
+                {
+                    message = $"Error: {e.Message}",
+                    err = true
+                };
+            }
+        }
     }
+
 }
