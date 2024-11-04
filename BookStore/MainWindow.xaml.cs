@@ -197,5 +197,18 @@ namespace BookStoreGUI {
             UpdateTotal();
             
         }
+
+        private void signUpButtonClick(object sender, RoutedEventArgs e) {
+            SignUp signUp = new SignUp();
+            signUp.Owner = this;
+            signUp.ShowDialog();
+            if (signUp.DialogResult == true) {
+                if (userData.SignUp(signUp.usernameTextBox.Text, signUp.passwordTextBox.Password, signUp.confirmPasswordTextBox.Password, signUp.fullNameTextBox.Text) == true) {
+                    this.statusTextBlock.Text = "You have successfully signed up";
+                } else {
+                    this.statusTextBlock.Text = "Sign Up failed. Please try again.";
+                }
+            }
+        }
     }
 }

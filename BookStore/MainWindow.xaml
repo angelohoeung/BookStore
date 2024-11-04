@@ -5,7 +5,7 @@
  <Window x:Class="BookStoreGUI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="XY's BookStore" Height="560" Width="550" Loaded="Window_Loaded">
+        Title="XY's BookStore" Height="560" Width="650" Loaded="Window_Loaded">
     <Grid>
         <StackPanel x:Name="LayoutRoot" DataContext="{Binding}"
 	    Orientation="Vertical" HorizontalAlignment="Left" Height="auto" Width="auto">
@@ -20,8 +20,9 @@
                         </ItemsPanelTemplate>
                     </ComboBox.ItemsPanel>
                 </ComboBox>
+                <Button Content="Sign Up" Height="25" x:Name="signUpButton" Width="75" Margin="28, 2, 0, 0" Click="signUpButtonClick"/>
                 <Button Content="Login" Height="25" x:Name="loginButton"
-		    Width="75" Margin="28,2,0,0" Click="loginButton_Click" />
+		    Width="75" Margin="20,2,0,0" Click="loginButton_Click" />
                 <Button Content="Exit" Height="25" x:Name="exitButton"
 		    Width="75" Margin="20,2,0,0" Click="exitButton_Click" />
             </StackPanel>
@@ -29,7 +30,7 @@
 		ItemsSource="{Binding drCat_Book}"
 
 		x:Name="ProductsDataGrid" RowDetailsVisibilityMode="VisibleWhenSelected"
-		Width="490" HorizontalAlignment="Left" Margin="20,0,20,10"
+		Width="490" HorizontalAlignment="Center" Margin="20,0,20,10"
 		SelectionMode="Single">
                 <DataGrid.Columns>
                     <DataGridTextColumn
