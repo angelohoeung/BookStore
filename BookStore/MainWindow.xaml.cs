@@ -4,6 +4,7 @@
  * **********************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -20,10 +21,38 @@ using BookStoreLIB;
 
 namespace BookStoreGUI {
     /// Interaction logic for MainWindow.xaml
-    public partial class MainWindow : Window {
+    public partial class MainWindow : Window, INotifyPropertyChanged
+    {
         DataSet dsBookCat;
         UserData userData;
         BookOrder bookOrder;
+
+        private decimal totalAmount;
+        public decimal TotalAmount
+        {
+            get { return totalAmount; }
+            set
+            {
+                if (totalAmount != value)
+                {
+                    totalAmount = value;
+                    OnPropertyChanged(nameof(TotalAmount));
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void UpdateTotal()
+        {
+           
+            TotalAmount = bookOrder.OrderItemList.Sum(item => (decimal)item.SubTotal);
+        }
 
         private void loginButton_Click(object sender, RoutedEventArgs e)
         {
@@ -70,6 +99,7 @@ namespace BookStoreGUI {
                 int quantity = int.Parse(orderItemDialog.quantityTextBox.Text);
                 bookOrder.AddItem(new OrderItem(isbn, title, unitPrice, quantity));
             }
+            UpdateTotal();
         }
 
         private void removeButton_Click(object sender, RoutedEventArgs e)
@@ -79,6 +109,7 @@ namespace BookStoreGUI {
                 var selectedOrderItem = this.orderListView.SelectedItem as OrderItem;
                 bookOrder.RemoveItem(selectedOrderItem.BookID);
             }
+            UpdateTotal();
         }
         private void chechoutButton_Click(object sender, RoutedEventArgs e) {
             if (userData.UserId > 0 && bookOrder.OrderItemList.Count() > 0) {
@@ -109,6 +140,62 @@ namespace BookStoreGUI {
             else {
                 MessageBox.Show("You are not logged in. Please log in to access account management.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void EditMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (orderListView.SelectedItem != null)
+            {
+                var selectedItem = orderListView.SelectedItem;
+                //MessageBox.Show($"Editing item with ISBN: {(selectedItem as OrderItem)?.BookID}");
+                EditOrderItemDialog editOrderdialog = new EditOrderItemDialog();
+
+                editOrderdialog.isbnTextBox.Text = (selectedItem as OrderItem)?.BookID;
+                editOrderdialog.titleTextBox.Text = (selectedItem as OrderItem)?.BookTitle;
+                editOrderdialog.priceTextBox.Text = (selectedItem as OrderItem)?.UnitPrice.ToString();
+                editOrderdialog.quantityTextBox.Text = (selectedItem as OrderItem)?.Quantity.ToString();
+                editOrderdialog.Owner = this;
+                editOrderdialog.ShowDialog();
+                
+                if(editOrderdialog.DialogResult == true)
+                {
+                    if(Int32.TryParse(editOrderdialog.quantityTextBox.Text, out int quantity))
+                    {
+                        if(quantity > 0)
+                        {
+                            bookOrder.SetQuantity((selectedItem as OrderItem), quantity);
+                        }
+                        else if(quantity == 0)
+                        {
+                            bookOrder.RemoveItem((selectedItem as OrderItem)?.BookID);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Please enter a non-negative quantity");
+                        }
+                    }
+                    else
+                    {
+                        //Remove item
+                        MessageBox.Show("Please enter a valid quantity");
+                    }
+                }
+
+            }
+            UpdateTotal();
+        }
+
+        private void DeleteMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (orderListView.SelectedItem != null)
+            {
+                var selectedItem = orderListView.SelectedItem;
+
+                bookOrder.RemoveItem((selectedItem as OrderItem)?.BookID);
+                //MessageBox.Show($"Deleting item with ISBN: {(selectedItem as OrderItem)?.BookID}");
+            }
+            UpdateTotal();
+            
         }
     }
 }

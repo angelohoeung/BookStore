@@ -11,10 +11,24 @@ namespace BookStoreLIB
     {
         ObservableCollection<OrderItem> orderItemList = new
             ObservableCollection<OrderItem>();
+        
         public ObservableCollection<OrderItem> OrderItemList
         {
             get { return orderItemList; }
         }
+
+        public void SetQuantity(OrderItem orderItem, int newQuantity)
+        {
+            foreach(var item in orderItemList)
+            {
+                if(item.BookID == orderItem.BookID)
+                {
+                    item.Quantity = newQuantity;
+                    return;
+                }
+            }
+        }
+
         public void AddItem(OrderItem orderItem)
         {
             foreach (var item in orderItemList)
