@@ -11,10 +11,24 @@ namespace BookStoreLIB
     {
         ObservableCollection<OrderItem> orderItemList = new
             ObservableCollection<OrderItem>();
+        
         public ObservableCollection<OrderItem> OrderItemList
         {
             get { return orderItemList; }
         }
+
+        public void SetQuantity(OrderItem orderItem, int newQuantity)
+        {
+            foreach(var item in orderItemList)
+            {
+                if(item.BookID == orderItem.BookID)
+                {
+                    item.Quantity = newQuantity;
+                    return;
+                }
+            }
+        }
+
         public void AddItem(OrderItem orderItem)
         {
             foreach (var item in orderItemList)
@@ -54,17 +68,18 @@ namespace BookStoreLIB
                 return total;
             }
         }
-        public int PlaceOrder(int userID)
-        {
-            string xmlOrder;
-            xmlOrder = "<Order UserID='" + userID.ToString() + "'>";
-            foreach (var item in orderItemList)
-            {
-                xmlOrder += item.ToString();
-            }
-            xmlOrder += "</Order>";
+        public int PlaceOrder(int userID) {
+            //string xmlOrder;
+            //xmlOrder = "<Order UserID='" + userID.ToString() + "'>";
+            //foreach (var item in orderItemList)
+            //{
+            //    xmlOrder += item.ToString();
+            //}
+            //xmlOrder += "</Order>";
+            //DALOrder dbOrder = new DALOrder();
+            //return dbOrder.Proceed2Order(xmlOrder);
             DALOrder dbOrder = new DALOrder();
-            return dbOrder.Proceed2Order(xmlOrder);
+            return dbOrder.CreateOrder(userID, orderItemList);
         }
     }
 }
