@@ -4,6 +4,7 @@
  * **********************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -20,18 +21,46 @@ using BookStoreLIB;
 
 namespace BookStoreGUI {
     /// Interaction logic for MainWindow.xaml
-    public partial class MainWindow : Window {
+    public partial class MainWindow : Window, INotifyPropertyChanged
+    {
         DataSet dsBookCat;
         UserData userData;
         BookOrder bookOrder;
+
+        private decimal totalAmount;
+        public decimal TotalAmount
+        {
+            get { return totalAmount; }
+            set
+            {
+                if (totalAmount != value)
+                {
+                    totalAmount = value;
+                    OnPropertyChanged(nameof(TotalAmount));
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void UpdateTotal()
+        {
+           
+            TotalAmount = bookOrder.OrderItemList.Sum(item => (decimal)item.SubTotal);
+        }
+
         private void loginButton_Click(object sender, RoutedEventArgs e)
         {
             LoginDialog dlg = new LoginDialog();
             dlg.Owner = this;
             dlg.ShowDialog();
             // Process data entered by user if dialog box is accepted
-            if (dlg.DialogResult == true)
-            {
+            if (dlg.DialogResult == true) {
                 if (userData.LogIn(dlg.nameTextBox.Text, dlg.passwordTextBox.Password) == true)
                     this.statusTextBlock.Text = "You are logged in as User #" +
                     userData.UserId;
@@ -39,8 +68,10 @@ namespace BookStoreGUI {
                     this.statusTextBlock.Text = "Your login failed. Please try again.";
             }
         }
+
         private void exitButton_Click(object sender, RoutedEventArgs e) { this.Close(); }
         public MainWindow() { InitializeComponent(); }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             BookCatalog bookCat = new BookCatalog();
@@ -50,6 +81,7 @@ namespace BookStoreGUI {
             userData = new UserData();
             this.orderListView.ItemsSource = bookOrder.OrderItemList;
         }
+
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
             OrderItemDialog orderItemDialog = new OrderItemDialog();
@@ -60,15 +92,16 @@ namespace BookStoreGUI {
             orderItemDialog.priceTextBox.Text = selectedRow.Row.ItemArray[4].ToString();
             orderItemDialog.Owner = this;
             orderItemDialog.ShowDialog();
-            if (orderItemDialog.DialogResult == true)
-            {
+            if (orderItemDialog.DialogResult == true) {
                 string isbn = orderItemDialog.isbnTextBox.Text;
                 string title = orderItemDialog.titleTextBox.Text;
                 double unitPrice = double.Parse(orderItemDialog.priceTextBox.Text);
                 int quantity = int.Parse(orderItemDialog.quantityTextBox.Text);
                 bookOrder.AddItem(new OrderItem(isbn, title, unitPrice, quantity));
             }
+            UpdateTotal();
         }
+
         private void removeButton_Click(object sender, RoutedEventArgs e)
         {
             if (this.orderListView.SelectedItem != null)
@@ -76,13 +109,93 @@ namespace BookStoreGUI {
                 var selectedOrderItem = this.orderListView.SelectedItem as OrderItem;
                 bookOrder.RemoveItem(selectedOrderItem.BookID);
             }
+            UpdateTotal();
         }
-        private void chechoutButton_Click(object sender, RoutedEventArgs e)
+        private void chechoutButton_Click(object sender, RoutedEventArgs e) {
+            if (userData.UserId > 0 && bookOrder.OrderItemList.Count() > 0) {
+                PaymentWindow pw = new PaymentWindow() { Owner = this };
+                pw.ShowDialog();
+                if (pw.DialogResult == true) {
+                    OrderConfirmation conf = new OrderConfirmation(bookOrder.OrderItemList) { Owner = this };
+                    conf.ShowDialog();
+                    if (conf.DialogResult == true) {
+                        var orderId = bookOrder.PlaceOrder(userData.UserId);
+                        this.statusTextBlock.Text = $"Order placed successfully. ID: {orderId}";
+                    }
+                }
+            }
+
+            //int orderId;
+            //orderId = bookOrder.PlaceOrder(userData.UserId);
+            //MessageBox.Show("Your order has been placed. Your order id is " +
+            //orderId.ToString());
+        }
+
+        private void AccountButton_Click(object sender, RoutedEventArgs e) {
+            if (userData.UserId > 0) {
+                AccountManagementWindow accountWindow = new AccountManagementWindow(userData);
+                accountWindow.Owner = this;
+                accountWindow.ShowDialog();
+            }
+            else {
+                MessageBox.Show("You are not logged in. Please log in to access account management.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void EditMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            int orderId;
-            orderId = bookOrder.PlaceOrder(userData.UserId);
-            MessageBox.Show("Your order has been placed. Your order id is " +
-            orderId.ToString());
+            if (orderListView.SelectedItem != null)
+            {
+                var selectedItem = orderListView.SelectedItem;
+                //MessageBox.Show($"Editing item with ISBN: {(selectedItem as OrderItem)?.BookID}");
+                EditOrderItemDialog editOrderdialog = new EditOrderItemDialog();
+
+                editOrderdialog.isbnTextBox.Text = (selectedItem as OrderItem)?.BookID;
+                editOrderdialog.titleTextBox.Text = (selectedItem as OrderItem)?.BookTitle;
+                editOrderdialog.priceTextBox.Text = (selectedItem as OrderItem)?.UnitPrice.ToString();
+                editOrderdialog.quantityTextBox.Text = (selectedItem as OrderItem)?.Quantity.ToString();
+                editOrderdialog.Owner = this;
+                editOrderdialog.ShowDialog();
+                
+                if(editOrderdialog.DialogResult == true)
+                {
+                    if(Int32.TryParse(editOrderdialog.quantityTextBox.Text, out int quantity))
+                    {
+                        if(quantity > 0)
+                        {
+                            bookOrder.SetQuantity((selectedItem as OrderItem), quantity);
+                        }
+                        else if(quantity == 0)
+                        {
+                            bookOrder.RemoveItem((selectedItem as OrderItem)?.BookID);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Please enter a non-negative quantity");
+                        }
+                    }
+                    else
+                    {
+                        //Remove item
+                        MessageBox.Show("Please enter a valid quantity");
+                    }
+                }
+
+            }
+            UpdateTotal();
+        }
+
+        private void DeleteMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (orderListView.SelectedItem != null)
+            {
+                var selectedItem = orderListView.SelectedItem;
+
+                bookOrder.RemoveItem((selectedItem as OrderItem)?.BookID);
+                //MessageBox.Show($"Deleting item with ISBN: {(selectedItem as OrderItem)?.BookID}");
+            }
+            UpdateTotal();
+            
         }
 
         private void signUpButtonClick(object sender, RoutedEventArgs e) {

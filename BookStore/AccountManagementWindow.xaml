@@ -1,0 +1,48 @@
+﻿<Window x:Class="BookStoreGUI.AccountManagementWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Account Management" Height="220" Width="550">
+    <StackPanel>
+        <Grid Margin="10" Width="500">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Name:" Grid.Column="0" Margin="0,0,10,0"/>
+            <TextBlock Text="{Binding FullName}" x:Name="nameTextBlock" Grid.Column="1"/>
+        </Grid>
+
+        <Grid Margin="10" Width="500">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Username:" Grid.Column="0" Margin="0,0,10,0"/>
+            <TextBlock Text="{Binding UserName}" x:Name="usernameTextBlock" Grid.Column="1"/>
+            <Button MinHeight="25" MinWidth="80"
+                    Content="Edit" Click="EditUsername_Click" Margin="10,0,0,0" 
+                    Grid.Column="2" HorizontalAlignment="Right"/>
+        </Grid>
+
+        <Grid Margin="10" Width="500">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Password:" Grid.Column="0" Margin="0,0,10,0"/>
+            <TextBlock Text="*****" x:Name="passwordTextBlock" Grid.Column="1"/>
+            <Button MinHeight="25" MinWidth="80"
+                    Content="Edit" Click="EditPassword_Click" Margin="10,0,0,0" 
+                    Grid.Column="2" HorizontalAlignment="Right"/>
+        </Grid>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" Width="500">
+            <Button MinHeight="25" MinWidth="80"
+                    Content="Back" Click="BackButton_Click" />
+            <Button MinHeight="25" MinWidth="80"
+                    Content="Delete Account" Click="DeleteAccount_Click" Width="121" Margin="299,0,0,0"/>
+        </StackPanel>
+    </StackPanel>
+</Window>

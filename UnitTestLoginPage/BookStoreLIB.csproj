@@ -50,12 +50,15 @@
     <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountTests.cs" />
     <Compile Include="BookCatalog.cs" />
     <Compile Include="BookOrder.cs" />
+    <Compile Include="DALAccount.cs" />
     <Compile Include="DALBookCatalog.cs" />
     <Compile Include="DALOrder.cs" />
     <Compile Include="DALUserInfo.cs" />
     <Compile Include="OrderItem.cs" />
+    <Compile Include="PaymentWindow.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -64,6 +67,7 @@
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SignUpUnitTests.cs" />
+    <Compile Include="ShoppingCartTests.cs" />
     <Compile Include="UserData.cs" />
   </ItemGroup>
   <ItemGroup>
