@@ -19,13 +19,39 @@ namespace BookStoreLIB
             }
         }
         #endregion
-
+        private int quantity;
+        private double subTotal;
         public string BookID { get; set; }
         public string BookTitle { get; set; }
-        public int Quantity { get; set; }
         public double UnitPrice { get; set; }
-        public double SubTotal { get; set; }
 
+
+        public int Quantity
+        {
+            get => quantity;
+            set
+            {
+                if (quantity != value)
+                {
+                    quantity = value;
+                    Notify(nameof(Quantity));
+                    SubTotal = UnitPrice * quantity; // Update SubTotal whenever Quantity changes
+                }
+            }
+        }
+
+        public double SubTotal
+        {
+            get => subTotal;
+            private set
+            {
+                if (subTotal != value)
+                {
+                    subTotal = value;
+                    Notify(nameof(SubTotal));
+                }
+            }
+        }
         public OrderItem(String isbn, String title,
             double unitPrice, int quantity)
         {
