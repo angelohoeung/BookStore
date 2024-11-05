@@ -17,6 +17,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using BookStoreGUI.Views;
 using BookStoreLIB;
 
 namespace BookStoreGUI {
@@ -84,22 +85,34 @@ namespace BookStoreGUI {
 
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
-            OrderItemDialog orderItemDialog = new OrderItemDialog();
-            DataRowView selectedRow;
-            selectedRow = (DataRowView)this.ProductsDataGrid.SelectedItems[0];
-            orderItemDialog.isbnTextBox.Text = selectedRow.Row.ItemArray[0].ToString();
-            orderItemDialog.titleTextBox.Text = selectedRow.Row.ItemArray[2].ToString();
-            orderItemDialog.priceTextBox.Text = selectedRow.Row.ItemArray[4].ToString();
-            orderItemDialog.Owner = this;
-            orderItemDialog.ShowDialog();
-            if (orderItemDialog.DialogResult == true) {
-                string isbn = orderItemDialog.isbnTextBox.Text;
-                string title = orderItemDialog.titleTextBox.Text;
-                double unitPrice = double.Parse(orderItemDialog.priceTextBox.Text);
-                int quantity = int.Parse(orderItemDialog.quantityTextBox.Text);
-                bookOrder.AddItem(new OrderItem(isbn, title, unitPrice, quantity));
+            
+            if(userData.UserId > 0)
+            {
+                if (ProductsDataGrid.SelectedItems.Count > 0)
+                {
+                    OrderItemDialog orderItemDialog = new OrderItemDialog();
+                    DataRowView selectedRow;
+                    selectedRow = (DataRowView)this.ProductsDataGrid.SelectedItems[0];
+                    orderItemDialog.isbnTextBox.Text = selectedRow.Row.ItemArray[0].ToString();
+                    orderItemDialog.titleTextBox.Text = selectedRow.Row.ItemArray[2].ToString();
+                    orderItemDialog.priceTextBox.Text = selectedRow.Row.ItemArray[4].ToString();
+                    orderItemDialog.Owner = this;
+                    orderItemDialog.ShowDialog();
+                    if (orderItemDialog.DialogResult == true)
+                    {
+                        string isbn = orderItemDialog.isbnTextBox.Text;
+                        string title = orderItemDialog.titleTextBox.Text;
+                        double unitPrice = double.Parse(orderItemDialog.priceTextBox.Text);
+                        int quantity = int.Parse(orderItemDialog.quantityTextBox.Text);
+                        bookOrder.AddItem(new OrderItem(isbn, title, unitPrice, quantity));
+                    }
+                    UpdateTotal();
+                }
             }
-            UpdateTotal();
+            else
+            {
+                MessageBox.Show("You must be logged in");
+            }
         }
 
         private void removeButton_Click(object sender, RoutedEventArgs e)
@@ -196,6 +209,26 @@ namespace BookStoreGUI {
             }
             UpdateTotal();
             
+        }
+
+        private void signUpButtonClick(object sender, RoutedEventArgs e) {
+            SignUp signUp = new SignUp();
+            signUp.Owner = this;
+            signUp.ShowDialog();
+            if (signUp.DialogResult == true) {
+                if (userData.SignUp(signUp.usernameTextBox.Text, signUp.passwordTextBox.Password, signUp.confirmPasswordTextBox.Password, signUp.fullNameTextBox.Text) == true) {
+                    this.statusTextBlock.Text = "You have successfully signed up";
+                } else {
+                    this.statusTextBlock.Text = "Sign Up failed. Please try again.";
+                }
+            }
+        }
+
+        private void searchButton_Click(object sender, RoutedEventArgs e)
+        {
+            Search searchWindow = new Search();
+            searchWindow.Owner = this;
+            searchWindow.ShowDialog();
         }
     }
 }
