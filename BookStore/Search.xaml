@@ -19,7 +19,7 @@
                      FontSize="16"
                      Padding="10,5"
                      Background="White" 
-                     TextChanged="SearchBox_TextChanged_1" Text="dsas">
+                     TextChanged="SearchBox_TextChanged_1">
                 <TextBox.Style>
                     <Style TargetType="{x:Type TextBox}">
                         <Style.Triggers>
