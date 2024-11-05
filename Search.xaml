@@ -1,0 +1,106 @@
+<Page x:Class="BookStoreGUI.Views.Search"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Book Search"
+      Background="White">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Search Controls -->
+        <StackPanel Grid.Row="0" Margin="10">
+            <TextBox x:Name="SearchBox" 
+                     Height="40"
+                     FontSize="16"
+                     Padding="10,5"
+                     TextChanged="SearchBox_TextChanged">
+                <TextBox.Style>
+                    <Style TargetType="TextBox">
+                        <Style.Triggers>
+                            <Trigger Property="Text" Value="">
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <VisualBrush Stretch="None" AlignmentX="Left">
+                                            <VisualBrush.Visual>
+                                                <TextBlock Text="Search for books..." 
+                                                         Foreground="Gray"
+                                                         Margin="5,2,0,0"/>
+                                            </VisualBrush.Visual>
+                                        </VisualBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+        </StackPanel>
+
+        <!-- Filters Section -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10">
+            <!-- Search By Dropdown -->
+            <StackPanel Orientation="Vertical" Margin="0,0,10,0">
+                <TextBlock Text="Search By" 
+                          Margin="0,0,0,5"
+                          FontWeight="SemiBold"/>
+                <ComboBox x:Name="SearchTypeComboBox" 
+                         Width="150"
+                         Height="30"
+                         SelectionChanged="SearchTypeComboBox_SelectionChanged">
+                    <ComboBoxItem Content="Title" IsSelected="True"/>
+                    <ComboBoxItem Content="Author"/>
+                    <ComboBoxItem Content="Genre"/>
+                    <ComboBoxItem Content="Keywords"/>
+                </ComboBox>
+            </StackPanel>
+
+            <!-- Filter Dropdown -->
+            <StackPanel Orientation="Vertical" Margin="0,0,10,0">
+                <TextBlock Text="Filter By" 
+                          Margin="0,0,0,5"
+                          FontWeight="SemiBold"/>
+                <ComboBox x:Name="SortByComboBox" 
+                         Width="150"
+                         Height="30"
+                         SelectionChanged="SortByComboBox_SelectionChanged">
+                    <ComboBoxItem Content="Price" IsSelected="True"/>
+                    <ComboBoxItem Content="Rating"/>
+                    <ComboBoxItem Content="Release Date"/>
+                </ComboBox>
+            </StackPanel>
+
+            <!-- Sort Order Dropdown -->
+            <StackPanel Orientation="Vertical" Margin="0,0,10,0">
+                <TextBlock Text="Sort By" 
+                          Margin="0,0,0,5"
+                          FontWeight="SemiBold"/>
+                <ComboBox x:Name="SortOrderComboBox" 
+                         Width="150"
+                         Height="30"
+                         SelectionChanged="SortOrderComboBox_SelectionChanged">
+                    <ComboBoxItem Content="Increasing" IsSelected="True"/>
+                    <ComboBoxItem Content="Decreasing"/>
+                </ComboBox>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Results -->
+        <ListView x:Name="SearchResultsListView" 
+                  Grid.Row="2" 
+                  Margin="10"/>
+
+        <!-- Status Messages -->
+        <StackPanel Grid.Row="3" Margin="10">
+            <TextBlock x:Name="ResultsCount" 
+                       Text="No search performed yet"/>
+            <TextBlock x:Name="NoResultsMessage" 
+                       Text="No books found matching your search criteria."
+                       Visibility="Collapsed"/>
+        </StackPanel>
+    </Grid>
+</Page> 

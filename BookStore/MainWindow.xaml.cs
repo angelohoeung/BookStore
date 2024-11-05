@@ -16,6 +16,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using BookStoreGUI.Views;
 using BookStoreLIB;
 
 namespace BookStoreGUI {
@@ -83,6 +84,13 @@ namespace BookStoreGUI {
             orderId = bookOrder.PlaceOrder(userData.UserId);
             MessageBox.Show("Your order has been placed. Your order id is " +
             orderId.ToString());
+        }
+
+        private void searchButton_Click(object sender, RoutedEventArgs e)
+        {
+            Search searchWindow = new Search();
+            searchWindow.Owner = this;
+            searchWindow.ShowDialog();
         }
     }
 }

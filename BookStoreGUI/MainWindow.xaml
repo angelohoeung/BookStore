@@ -71,4 +71,4 @@
             <TextBlock x:Name="statusTextBlock"><Run Text="Please login before proceeding to checkout." /></TextBlock>
         </StatusBar>
     </Grid>
-</Window>
+</Window> 
