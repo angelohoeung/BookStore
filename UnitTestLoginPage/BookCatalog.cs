@@ -16,5 +16,19 @@ namespace BookStoreLIB
             DALBookCatalog bookCatalog = new DALBookCatalog();
             return bookCatalog.GetBookInfo();
         }
+        public DataSet GetBooks(bool showAll) {
+            DALBookCatalog bookCatalog = new DALBookCatalog();
+            return bookCatalog.GetBooks(showAll);
+        }
+
+        public bool UpdateBook(string isbn, string title, string author, decimal price, string publisher) {
+            DALBookCatalog dalBookCatalog = new DALBookCatalog();
+            return dalBookCatalog.UpdateBook(isbn, title, author, price, publisher);
+        }
+
+        public bool SetBookOutOfStock(string isbn) {
+            DALBookCatalog dalBookCatalog = new DALBookCatalog();
+            return dalBookCatalog.SetBookOutOfStock(isbn);
+        }
     }
 }

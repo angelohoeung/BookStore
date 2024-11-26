@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -62,9 +63,11 @@ namespace BookStoreGUI {
             dlg.ShowDialog();
             // Process data entered by user if dialog box is accepted
             if (dlg.DialogResult == true) {
-                if (userData.LogIn(dlg.nameTextBox.Text, dlg.passwordTextBox.Password) == true)
+                if (userData.LogIn(dlg.nameTextBox.Text, dlg.passwordTextBox.Password) == true) {
                     this.statusTextBlock.Text = "You are logged in as User #" +
                     userData.UserId;
+                    RefreshBooks();
+                }
                 else
                     this.statusTextBlock.Text = "Your login failed. Please try again.";
             }
@@ -75,12 +78,13 @@ namespace BookStoreGUI {
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            BookCatalog bookCat = new BookCatalog();
-            dsBookCat = bookCat.GetBookInfo();
-            this.DataContext = dsBookCat.Tables["Category"];
-            bookOrder = new BookOrder();
             userData = new UserData();
+            bookOrder = new BookOrder();
+            BookCatalog bookCat = new BookCatalog();
+            dsBookCat = bookCat.GetBooks(userData.IsManager);
+            this.DataContext = dsBookCat.Tables["Category"];
             this.orderListView.ItemsSource = bookOrder.OrderItemList;
+            Debug.WriteLine($"User Manager Status: {userData.IsManager}");
         }
 
         private void addButton_Click(object sender, RoutedEventArgs e)
@@ -229,6 +233,81 @@ namespace BookStoreGUI {
             Search searchWindow = new Search();
             searchWindow.Owner = this;
             searchWindow.ShowDialog();
+        }
+
+        private void RefreshBooks() {
+            BookCatalog bookCat = new BookCatalog();
+            dsBookCat = bookCat.GetBooks(userData.IsManager);
+            this.DataContext = dsBookCat.Tables["Category"];
+        }
+
+        private void EditBookMenuItem_Click(object sender, RoutedEventArgs e) {
+            if (!userData.IsManager) {
+                MessageBox.Show("You do not have permission to edit books.");
+                return;
+            }
+
+            if (ProductsDataGrid.SelectedItem != null) {
+                DataRowView selectedRow = (DataRowView)ProductsDataGrid.SelectedItem;
+                EditBookDialog editDialog = new EditBookDialog();
+
+                // populate dialog with book details
+                editDialog.ISBNTextBox.Text = selectedRow["ISBN"].ToString();
+                editDialog.TitleTextBox.Text = selectedRow["Title"].ToString();
+                editDialog.AuthorTextBox.Text = selectedRow["Author"].ToString();
+                editDialog.PriceTextBox.Text = selectedRow["Price"].ToString();
+                editDialog.PublisherTextBox.Text = selectedRow["Publisher"].ToString();
+
+                editDialog.Owner = this;
+                editDialog.ShowDialog();
+
+                if (editDialog.DialogResult == true) {
+                    // update book in the database
+                    BookCatalog bookCatalog = new BookCatalog();
+                    bool success = bookCatalog.UpdateBook(
+                        editDialog.ISBNTextBox.Text,
+                        editDialog.TitleTextBox.Text,
+                        editDialog.AuthorTextBox.Text,
+                        decimal.Parse(editDialog.PriceTextBox.Text),
+                        editDialog.PublisherTextBox.Text
+                    );
+
+                    if (success) {
+                        MessageBox.Show("Book updated successfully.");
+                        RefreshBooks();
+                    }
+                    else {
+                        MessageBox.Show("Failed to update book.");
+                    }
+                }
+            }
+        }
+
+        private void DeleteBookMenuItem_Click(object sender, RoutedEventArgs e) {
+            if (!userData.IsManager) {
+                MessageBox.Show("You do not have permission to delete books.");
+                return;
+            }
+
+            if (ProductsDataGrid.SelectedItem != null) {
+                DataRowView selectedRow = (DataRowView)ProductsDataGrid.SelectedItem;
+                string isbn = selectedRow["ISBN"].ToString();
+
+                BookCatalog bookCatalog = new BookCatalog();
+                bool success = bookCatalog.SetBookOutOfStock(isbn);
+
+                if (success) {
+                    MessageBox.Show("Book marked as out of stock.");
+                    RefreshBooks();
+                }
+                else {
+                    MessageBox.Show("Failed to mark book as out of stock.");
+                }
+            }
+        }
+
+        public bool IsManager {
+            get { return userData.IsManager; }
         }
     }
 }

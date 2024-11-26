@@ -1,0 +1,34 @@
+﻿<Window x:Class="BookStoreGUI.EditBookDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BookStoreGUI"
+        mc:Ignorable="d"
+        Title="EditBookDialog" Height="450" Width="800">
+    <Grid>
+        <Grid>
+            <StackPanel Margin="10">
+                <Label Content="ISBN:" />
+                <TextBox Name="ISBNTextBox" IsReadOnly="True" />
+
+                <Label Content="Title:" />
+                <TextBox Name="TitleTextBox" />
+
+                <Label Content="Author:" />
+                <TextBox Name="AuthorTextBox" />
+
+                <Label Content="Price:" />
+                <TextBox Name="PriceTextBox" />
+
+                <Label Content="Publisher:" />
+                <TextBox Name="PublisherTextBox" />
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+                    <Button Content="OK" Width="75" Click="OkButton_Click" />
+                    <Button Content="Cancel" Width="75" Click="CancelButton_Click" Margin="10,0,0,0" />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
