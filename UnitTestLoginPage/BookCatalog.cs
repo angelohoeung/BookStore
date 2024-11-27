@@ -21,9 +21,9 @@ namespace BookStoreLIB
             return bookCatalog.GetBooks(showAll);
         }
 
-        public bool UpdateBook(string isbn, string title, string author, decimal price, string publisher) {
+        public bool UpdateBook(string isbn, string title, string author, decimal price, string year, string publisher, int categoryId, int supplierId, int inStock, string edition) {
             DALBookCatalog dalBookCatalog = new DALBookCatalog();
-            return dalBookCatalog.UpdateBook(isbn, title, author, price, publisher);
+            return dalBookCatalog.UpdateBook(isbn, title, author, price, year, publisher, categoryId, supplierId, inStock, edition);
         }
 
         public bool SetBookOutOfStock(string isbn) {

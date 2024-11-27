@@ -97,9 +97,9 @@ namespace BookStoreGUI {
                     OrderItemDialog orderItemDialog = new OrderItemDialog();
                     DataRowView selectedRow;
                     selectedRow = (DataRowView)this.ProductsDataGrid.SelectedItems[0];
-                    orderItemDialog.isbnTextBox.Text = selectedRow.Row.ItemArray[0].ToString();
-                    orderItemDialog.titleTextBox.Text = selectedRow.Row.ItemArray[2].ToString();
-                    orderItemDialog.priceTextBox.Text = selectedRow.Row.ItemArray[4].ToString();
+                    orderItemDialog.isbnTextBox.Text = selectedRow["ISBN"].ToString();
+                    orderItemDialog.titleTextBox.Text = selectedRow["Title"].ToString();
+                    orderItemDialog.priceTextBox.Text = selectedRow["Price"].ToString();
                     orderItemDialog.Owner = this;
                     orderItemDialog.ShowDialog();
                     if (orderItemDialog.DialogResult == true)
@@ -257,19 +257,33 @@ namespace BookStoreGUI {
                 editDialog.AuthorTextBox.Text = selectedRow["Author"].ToString();
                 editDialog.PriceTextBox.Text = selectedRow["Price"].ToString();
                 editDialog.PublisherTextBox.Text = selectedRow["Publisher"].ToString();
+                editDialog.YearTextBox.Text = selectedRow["Year"].ToString();
+                editDialog.EditionTextBox.Text = selectedRow["Edition"].ToString();
+                editDialog.InStockTextBox.Text = selectedRow["InStock"].ToString();
+
+                // load categories and suppliers
+                BookCatalog bookCatalog = new BookCatalog();
+                DataSet dsBookData = bookCatalog.GetBooks(userData.IsManager);
+                editDialog.CategoryComboBox.ItemsSource = dsBookData.Tables["Category"].DefaultView;
+                editDialog.CategoryComboBox.SelectedValue = selectedRow["CategoryID"];
+
+                editDialog.SupplierComboBox.ItemsSource = dsBookData.Tables["Supplier"].DefaultView;
+                editDialog.SupplierComboBox.SelectedValue = selectedRow["SupplierId"];
 
                 editDialog.Owner = this;
-                editDialog.ShowDialog();
-
-                if (editDialog.DialogResult == true) {
+                if (editDialog.ShowDialog() == true) {
                     // update book in the database
-                    BookCatalog bookCatalog = new BookCatalog();
                     bool success = bookCatalog.UpdateBook(
                         editDialog.ISBNTextBox.Text,
                         editDialog.TitleTextBox.Text,
                         editDialog.AuthorTextBox.Text,
                         decimal.Parse(editDialog.PriceTextBox.Text),
-                        editDialog.PublisherTextBox.Text
+                        editDialog.YearTextBox.Text,
+                        editDialog.PublisherTextBox.Text,
+                        int.Parse(editDialog.CategoryComboBox.SelectedValue.ToString()),
+                        int.Parse(editDialog.SupplierComboBox.SelectedValue.ToString()),
+                        int.Parse(editDialog.InStockTextBox.Text),
+                        editDialog.EditionTextBox.Text
                     );
 
                     if (success) {

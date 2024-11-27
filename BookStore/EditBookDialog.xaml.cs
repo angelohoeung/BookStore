@@ -22,6 +22,21 @@ namespace BookStoreGUI {
         }
 
         private void OkButton_Click(object sender, RoutedEventArgs e) {
+            // validate fields
+            if (string.IsNullOrWhiteSpace(TitleTextBox.Text) ||
+                string.IsNullOrWhiteSpace(AuthorTextBox.Text) ||
+                !decimal.TryParse(PriceTextBox.Text, out _) ||
+                string.IsNullOrWhiteSpace(PublisherTextBox.Text) ||
+                !int.TryParse(YearTextBox.Text, out _) ||
+                !int.TryParse(EditionTextBox.Text, out _) ||
+                !int.TryParse(InStockTextBox.Text, out _) ||
+                CategoryComboBox.SelectedItem == null ||
+                SupplierComboBox.SelectedItem == null) {
+                MessageBox.Show("Please fill in all fields with valid data.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // result is true if fields are valid
             this.DialogResult = true;
         }
 
