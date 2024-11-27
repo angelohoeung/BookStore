@@ -230,5 +230,13 @@ namespace BookStoreGUI {
             searchWindow.Owner = this;
             searchWindow.ShowDialog();
         }
+
+        private void wishlistButton_Click(Object sender, RoutedEventArgs e)
+        {
+            if (orderListView.SelectedItem != null)
+            {
+               
+            }
+        }
     }
 }
