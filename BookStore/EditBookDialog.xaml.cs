@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BookStoreLIB;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,21 +23,29 @@ namespace BookStoreGUI {
         }
 
         private void OkButton_Click(object sender, RoutedEventArgs e) {
-            // validate fields
-            if (string.IsNullOrWhiteSpace(TitleTextBox.Text) ||
-                string.IsNullOrWhiteSpace(AuthorTextBox.Text) ||
-                !decimal.TryParse(PriceTextBox.Text, out _) ||
-                string.IsNullOrWhiteSpace(PublisherTextBox.Text) ||
-                !int.TryParse(YearTextBox.Text, out _) ||
-                !int.TryParse(EditionTextBox.Text, out _) ||
-                !int.TryParse(InStockTextBox.Text, out _) ||
-                CategoryComboBox.SelectedItem == null ||
-                SupplierComboBox.SelectedItem == null) {
-                MessageBox.Show("Please fill in all fields with valid data.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            BookCatalog bookCatalog = new BookCatalog();
+
+            // validate and update the book
+            string errorMessage = bookCatalog.UpdateBook(
+                ISBNTextBox.Text,
+                TitleTextBox.Text,
+                AuthorTextBox.Text,
+                decimal.TryParse(PriceTextBox.Text, out var price) ? price : -1,
+                YearTextBox.Text,
+                PublisherTextBox.Text,
+                CategoryComboBox.SelectedValue is int categoryId ? categoryId : -1,
+                SupplierComboBox.SelectedValue is int supplierId ? supplierId : -1,
+                int.TryParse(InStockTextBox.Text, out var inStock) ? inStock : -1,
+                EditionTextBox.Text
+            );
+
+            if (!string.IsNullOrEmpty(errorMessage)) {
+                // display error message
+                MessageBox.Show(errorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
-            // result is true if fields are valid
+            // close the dialog if successful
             this.DialogResult = true;
         }
 

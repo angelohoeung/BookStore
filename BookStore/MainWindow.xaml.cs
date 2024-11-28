@@ -272,8 +272,7 @@ namespace BookStoreGUI {
 
                 editDialog.Owner = this;
                 if (editDialog.ShowDialog() == true) {
-                    // update book in the database
-                    bool success = bookCatalog.UpdateBook(
+                    string errorMessage = bookCatalog.UpdateBook(
                         editDialog.ISBNTextBox.Text,
                         editDialog.TitleTextBox.Text,
                         editDialog.AuthorTextBox.Text,
@@ -286,12 +285,12 @@ namespace BookStoreGUI {
                         editDialog.EditionTextBox.Text
                     );
 
-                    if (success) {
-                        MessageBox.Show("Book updated successfully.");
-                        RefreshBooks();
+                    if (!string.IsNullOrEmpty(errorMessage)) {
+                        MessageBox.Show(errorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     else {
-                        MessageBox.Show("Failed to update book.");
+                        MessageBox.Show("Book updated successfully.");
+                        RefreshBooks();
                     }
                 }
             }
@@ -299,7 +298,7 @@ namespace BookStoreGUI {
 
         private void DeleteBookMenuItem_Click(object sender, RoutedEventArgs e) {
             if (!userData.IsManager) {
-                MessageBox.Show("You do not have permission to delete books.");
+                MessageBox.Show("You do not have permission to delete books.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -308,14 +307,14 @@ namespace BookStoreGUI {
                 string isbn = selectedRow["ISBN"].ToString();
 
                 BookCatalog bookCatalog = new BookCatalog();
-                bool success = bookCatalog.SetBookOutOfStock(isbn);
+                string errorMessage = bookCatalog.SetBookOutOfStock(isbn);
 
-                if (success) {
-                    MessageBox.Show("Book marked as out of stock.");
+                if (string.IsNullOrEmpty(errorMessage)) {
+                    MessageBox.Show("Book marked as out of stock.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                     RefreshBooks();
                 }
                 else {
-                    MessageBox.Show("Failed to mark book as out of stock.");
+                    MessageBox.Show(errorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
