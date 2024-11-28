@@ -7,15 +7,49 @@ namespace BookStoreLIB {
     public class EditBookListingTests {
         private const string TestISBN = "TESTISBN12";
         private readonly string connectionString = Properties.Settings.Default.Connection;
+        private int testManagerId;
+        private int testNonManagerId;
 
         [TestInitialize]
         public void Setup() {
+            FindExistingUsers();
             CreateTestBook();
         }
 
         [TestCleanup]
         public void Cleanup() {
             DeleteTestBook();
+        }
+
+        private void FindExistingUsers() {
+            string findManagerQuery = "SELECT TOP 1 UserID FROM UserData WHERE Manager = 1";
+            string findNonManagerQuery = "SELECT TOP 1 UserID FROM UserData WHERE Manager = 0";
+
+            using (var conn = new SqlConnection(connectionString)) {
+                conn.Open();
+
+                // find manager
+                using (var cmd = new SqlCommand(findManagerQuery, conn)) {
+                    var result = cmd.ExecuteScalar();
+                    if (result != null) {
+                        testManagerId = (int)result;
+                    }
+                    else {
+                        throw new Exception("No manager user found in the database.");
+                    }
+                }
+
+                // find non manager
+                using (var cmd = new SqlCommand(findNonManagerQuery, conn)) {
+                    var result = cmd.ExecuteScalar();
+                    if (result != null) {
+                        testNonManagerId = (int)result;
+                    }
+                    else {
+                        throw new Exception("No non-manager user found in the database.");
+                    }
+                }
+            }
         }
 
         private void CreateTestBook() {
@@ -42,6 +76,22 @@ namespace BookStoreLIB {
                 conn.Open();
                 command.ExecuteNonQuery();
             }
+        }
+
+        [TestMethod]
+        public void GetManagerStatus_ShouldReturnTrue_ForManager() {
+            DALUserInfo userInfo = new DALUserInfo();
+            bool isManager = userInfo.GetManagerStatus(testManagerId);
+
+            Assert.IsTrue(isManager, $"Expected UserID {testManagerId} to be a manager.");
+        }
+
+        [TestMethod]
+        public void GetManagerStatus_ShouldReturnFalse_ForNonManager() {
+            DALUserInfo userInfo = new DALUserInfo();
+            bool isManager = userInfo.GetManagerStatus(testNonManagerId);
+
+            Assert.IsFalse(isManager, $"Expected UserID {testNonManagerId} to be a non-manager.");
         }
 
         [TestMethod]
