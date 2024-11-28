@@ -115,6 +115,7 @@
     <Compile Include="DALBookCatalog.cs" />
     <Compile Include="DALOrder.cs" />
     <Compile Include="DALUserInfo.cs" />
+    <Compile Include="EditBookListingTests.cs" />
     <Compile Include="OrderItem.cs" />
     <Compile Include="PaymentWindow.cs" />
     <Compile Include="Properties\Settings.Designer.cs">

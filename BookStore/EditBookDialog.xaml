@@ -1,0 +1,63 @@
+﻿<Window x:Class="BookStoreGUI.EditBookDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        WindowStartupLocation="CenterOwner"
+        Title="Edit Book" SizeToContent="Height" Width="800">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" Grid.Column="0" Margin="5">ISBN:</Label>
+        <TextBox Name="ISBNTextBox" Grid.Row="0" Grid.Column="1" Margin="5" IsReadOnly="True" IsEnabled="False" VerticalContentAlignment="Bottom" VerticalAlignment="Bottom" />
+
+        <Label Grid.Row="1" Grid.Column="0" Margin="5">Title:</Label>
+        <TextBox Name="TitleTextBox" Grid.Row="1" Grid.Column="1" Margin="5" VerticalContentAlignment="Bottom" VerticalAlignment="Bottom" />
+
+        <Label Grid.Row="2" Grid.Column="0" Margin="5">Author:</Label>
+        <TextBox Name="AuthorTextBox" Grid.Row="2" Grid.Column="1" Margin="5" VerticalContentAlignment="Bottom" VerticalAlignment="Bottom" />
+
+        <Label Grid.Row="3" Grid.Column="0" Margin="5">Price:</Label>
+        <TextBox Name="PriceTextBox" Grid.Row="3" Grid.Column="1" Margin="5" VerticalContentAlignment="Bottom" VerticalAlignment="Bottom" />
+
+        <Label Grid.Row="4" Grid.Column="0" Margin="5">Publisher:</Label>
+        <TextBox Name="PublisherTextBox" Grid.Row="4" Grid.Column="1" Margin="5" VerticalContentAlignment="Bottom" VerticalAlignment="Bottom" />
+
+        <Label Grid.Row="5" Grid.Column="0" Margin="5">Year:</Label>
+        <TextBox Name="YearTextBox" Grid.Row="5" Grid.Column="1" Margin="5" VerticalContentAlignment="Bottom" VerticalAlignment="Bottom" />
+
+        <Label Grid.Row="6" Grid.Column="0" Margin="5">Edition:</Label>
+        <TextBox Name="EditionTextBox" Grid.Row="6" Grid.Column="1" Margin="5" VerticalContentAlignment="Bottom" VerticalAlignment="Bottom" />
+
+        <Label Grid.Row="7" Grid.Column="0" Margin="5">In Stock:</Label>
+        <TextBox Name="InStockTextBox" Grid.Row="7" Grid.Column="1" Margin="5" VerticalContentAlignment="Bottom" VerticalAlignment="Bottom" />
+
+        <Label Grid.Row="8" Grid.Column="0" Margin="5">Category:</Label>
+        <ComboBox Name="CategoryComboBox" Grid.Row="8" Grid.Column="1" Margin="5" 
+                  DisplayMemberPath="Name" SelectedValuePath="CategoryID" VerticalContentAlignment="Bottom" VerticalAlignment="Bottom" />
+
+        <Label Grid.Row="9" Grid.Column="0" Margin="5">Supplier:</Label>
+        <ComboBox Name="SupplierComboBox" Grid.Row="9" Grid.Column="1" Margin="5" 
+                  DisplayMemberPath="Name" SelectedValuePath="SupplierId" VerticalContentAlignment="Bottom" VerticalAlignment="Bottom" />
+
+        <StackPanel Grid.Row="10" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+            <Button Content="OK" Width="80" Margin="5" Click="OkButton_Click" />
+            <Button Content="Cancel" Width="80" Margin="5" Click="CancelButton_Click" />
+        </StackPanel>
+    </Grid>
+</Window>
