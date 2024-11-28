@@ -262,36 +262,16 @@ namespace BookStoreGUI {
                 editDialog.InStockTextBox.Text = selectedRow["InStock"].ToString();
 
                 // load categories and suppliers
-                BookCatalog bookCatalog = new BookCatalog();
-                DataSet dsBookData = bookCatalog.GetBooks(userData.IsManager);
-                editDialog.CategoryComboBox.ItemsSource = dsBookData.Tables["Category"].DefaultView;
+                editDialog.CategoryComboBox.ItemsSource = dsBookCat.Tables["Category"].DefaultView;
                 editDialog.CategoryComboBox.SelectedValue = selectedRow["CategoryID"];
 
-                editDialog.SupplierComboBox.ItemsSource = dsBookData.Tables["Supplier"].DefaultView;
+                editDialog.SupplierComboBox.ItemsSource = dsBookCat.Tables["Supplier"].DefaultView;
                 editDialog.SupplierComboBox.SelectedValue = selectedRow["SupplierId"];
 
                 editDialog.Owner = this;
                 if (editDialog.ShowDialog() == true) {
-                    string errorMessage = bookCatalog.UpdateBook(
-                        editDialog.ISBNTextBox.Text,
-                        editDialog.TitleTextBox.Text,
-                        editDialog.AuthorTextBox.Text,
-                        decimal.Parse(editDialog.PriceTextBox.Text),
-                        editDialog.YearTextBox.Text,
-                        editDialog.PublisherTextBox.Text,
-                        int.Parse(editDialog.CategoryComboBox.SelectedValue.ToString()),
-                        int.Parse(editDialog.SupplierComboBox.SelectedValue.ToString()),
-                        int.Parse(editDialog.InStockTextBox.Text),
-                        editDialog.EditionTextBox.Text
-                    );
-
-                    if (!string.IsNullOrEmpty(errorMessage)) {
-                        MessageBox.Show(errorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                    else {
-                        MessageBox.Show("Book updated successfully.");
-                        RefreshBooks();
-                    }
+                    MessageBox.Show("Book updated successfully.");
+                    RefreshBooks();
                 }
             }
         }
