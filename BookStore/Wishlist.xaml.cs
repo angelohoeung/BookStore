@@ -23,26 +23,33 @@ namespace BookStoreGUI
 
     public partial class Wishlist : Window
     {
-        private ObservableCollection<OrderItem> wishlist;
+        private ObservableCollection<WishlistItem> wishlist;
+        private DALWishlist dalWishlist;
 
-        public Wishlist(ObservableCollection<OrderItem> wishlist)
+        public Wishlist(ObservableCollection<WishlistItem> wishlist)
         {
             InitializeComponent();
             this.wishlist = wishlist;
+            this.dalWishlist = new DALWishlist();
         }
 
         private void WindowLoaded(object sender, RoutedEventArgs e)
         {
-            UpdateWindow(wishlist);
+            UpdateWindow();
         }
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;
+            this.dalWishlist.addItemWishlistItemToShoppingCart(this.wishlistTextBlock.)
+
+            this.UpdateWindow();
+            
         }
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;
+            this.UpdateWindow();
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
@@ -50,15 +57,15 @@ namespace BookStoreGUI
             this.Close();
         }
 
-        private void UpdateWindow(ObservableCollection<OrderItem> items)
+        private void UpdateWindow()
         {
             int total = 0;
             StringBuilder orderSummaryBuilder = new StringBuilder();
 
-            foreach (OrderItem item in items)
+            foreach (WishlistItem item in this.wishlist)
             {
                 total++;
-                orderSummaryBuilder.AppendLine($"{item.Quantity}x {item.BookTitle} (ISBN: {item.BookID})\n");
+                orderSummaryBuilder.AppendLine($" {item.BookName} (ISBN: {item.Isbn})\n");
             }
             wishlistTextBlock.Text = orderSummaryBuilder.ToString();
             totalItems.Text = $"Total items: {total}";

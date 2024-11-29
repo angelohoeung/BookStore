@@ -261,7 +261,8 @@ namespace BookStoreGUI {
         {
             if (orderListView.SelectedItem != null)
             {
-               
+                DALWishlist wishlist = new DALWishlist();
+                wishlist.addItemToWishlist(userData.UserId, orderListView.SelectedItem as OrderItem);
             }
         }
 
