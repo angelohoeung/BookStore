@@ -131,6 +131,7 @@
     <Compile Include="SignUpUnitTests.cs" />
     <Compile Include="ShoppingCartTests.cs" />
     <Compile Include="UserData.cs" />
+    <Compile Include="Wishlist.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -257,6 +257,14 @@ namespace BookStoreGUI {
             searchWindow.ShowDialog();
         }
 
+        private void wishlistButton_Click(Object sender, RoutedEventArgs e)
+        {
+            if (orderListView.SelectedItem != null)
+            {
+               
+            }
+        }
+
         private void RefreshBooks() {
             BookCatalog bookCat = new BookCatalog();
             dsBookCat = bookCat.GetBooks(userData.IsManager);
