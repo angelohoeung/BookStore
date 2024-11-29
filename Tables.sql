@@ -24,7 +24,7 @@ CREATE TABLE Orders(
     CONSTRAINT FK_Orders_Employee FOREIGN KEY (UserID) REFERENCES UserData(UserID)
 );
 
-CREATE TABLE OrderID(
+CREATE TABLE OrderItem(
     OrderID INT NOT NULL,
     ISBN CHAR(10) NOT NULL,
     Quantity INT NOT NULL,
@@ -60,4 +60,15 @@ CREATE TABLE BookData(
     CONSTRAINT PK_Product PRIMARY KEY CLUSTERED (ISBN ASC),
     CONSTRAINT FK_Product_Category FOREIGN KEY (CategoryID) REFERENCES Category(CategoryID),
     CONSTRAINT FK_Product_Supplier FOREIGN KEY (SupplierID) REFERENCES Supplier(SupplierID),
+);
+
+CREATE TABLE ShoppingCart (
+    CartID INT IDENTITY(1,1) NOT NULL,
+    UserID INT NOT NULL,
+    ISBN CHAR(10) NOT NULL,
+    Quantity INT NOT NULL CHECK (Quantity > 0),
+    DateAdded DATETIME DEFAULT GETDATE() NOT NULL,
+    PRIMARY KEY (CartID),
+    CONSTRAINT FK_ShoppingCart_User FOREIGN KEY (UserID) REFERENCES UserData(UserID),
+    CONSTRAINT FK_ShoppingCart_Book FOREIGN KEY (ISBN) REFERENCES BookData(ISBN)
 );

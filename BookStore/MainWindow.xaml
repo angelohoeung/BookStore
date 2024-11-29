@@ -27,6 +27,22 @@
                       x:Name="ProductsDataGrid" RowDetailsVisibilityMode="VisibleWhenSelected"
                       Width="490" HorizontalAlignment="Center" Margin="20,0,20,10"
                       SelectionMode="Single">
+                <DataGrid.Resources>
+                    <ContextMenu x:Key="ProductItemContextMenu">
+                        <MenuItem Header="Edit" Click="EditBookMenuItem_Click" />
+                        <MenuItem Header="Delete" Click="DeleteBookMenuItem_Click" />
+                    </ContextMenu>
+                </DataGrid.Resources>
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="ContextMenu" Value="{StaticResource ProductItemContextMenu}" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsManager, RelativeSource={RelativeSource AncestorType=Window}}" Value="False">
+                                <Setter Property="ContextMenu" Value="{x:Null}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
                 <DataGrid.Columns>
                     <DataGridTextColumn
                         x:Name="titleColumn" Binding="{Binding Title}"

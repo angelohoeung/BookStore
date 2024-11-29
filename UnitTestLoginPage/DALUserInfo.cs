@@ -81,5 +81,19 @@ namespace BookStoreLIB {
                 }
             }
         }
+
+        public bool GetManagerStatus(int userId) {
+            using (var conn = new SqlConnection(Properties.Settings.Default.Connection)) {
+                string query = "SELECT Manager FROM UserData WHERE UserID = @UserId";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@UserId", userId);
+
+                conn.Open();
+                var result = cmd.ExecuteScalar();
+                conn.Close();
+
+                return result != null && (bool)result;
+            }
+        }
     }
 }

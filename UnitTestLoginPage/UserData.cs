@@ -14,6 +14,7 @@ namespace BookStoreLIB {
         public int UserId { get; set; }
         public string LoginName { get; set; }
         public string Password { get; set; }
+        public bool IsManager { get; set; }
 
         public bool LogIn(string loginName, string password) {
             var dbUser = new DALUserInfo();
@@ -25,7 +26,11 @@ namespace BookStoreLIB {
             if (UserId > 0) {
                 LoginName = loginName;
                 Password = password;
-                Debug.WriteLine("Successful login");
+
+                // fetch manager status from the database
+                IsManager = dbUser.GetManagerStatus(UserId);
+
+                Debug.WriteLine($"Successful login. IsManager: {IsManager}");
                 return true;
             } else {
                 return false;
