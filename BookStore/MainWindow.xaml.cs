@@ -67,6 +67,17 @@ namespace BookStoreGUI {
                     this.statusTextBlock.Text = "You are logged in as User #" +
                     userData.UserId;
                     RefreshBooks();
+
+                    //Load shopping cart
+                    DALShoppingCart cart = new DALShoppingCart();
+                    List<OrderItem> cartItems = cart.GetCartItems(userData.UserId);
+
+                    Console.WriteLine("Cart items count: " + cartItems.Count());
+                    foreach(var item in cartItems)
+                    {
+                        bookOrder.AddItem(item);
+                    }
+                    UpdateTotal();
                 }
                 else
                     this.statusTextBlock.Text = "Your login failed. Please try again.";
@@ -108,7 +119,11 @@ namespace BookStoreGUI {
                         string title = orderItemDialog.titleTextBox.Text;
                         double unitPrice = double.Parse(orderItemDialog.priceTextBox.Text);
                         int quantity = int.Parse(orderItemDialog.quantityTextBox.Text);
-                        bookOrder.AddItem(new OrderItem(isbn, title, unitPrice, quantity));
+                        OrderItem orderItem = new OrderItem(isbn, title, unitPrice, quantity);
+                        bookOrder.AddItem(orderItem);
+                        DALShoppingCart cart = new DALShoppingCart();
+                        cart.AddCartItem(userData.UserId, orderItem);
+
                     }
                     UpdateTotal();
                 }
@@ -181,6 +196,8 @@ namespace BookStoreGUI {
                         if(quantity > 0)
                         {
                             bookOrder.SetQuantity((selectedItem as OrderItem), quantity);
+                            DALShoppingCart cart = new DALShoppingCart();
+                            cart.EditCartItem(userData.UserId, selectedItem  as OrderItem);
                         }
                         else if(quantity == 0)
                         {
@@ -210,6 +227,9 @@ namespace BookStoreGUI {
 
                 bookOrder.RemoveItem((selectedItem as OrderItem)?.BookID);
                 //MessageBox.Show($"Deleting item with ISBN: {(selectedItem as OrderItem)?.BookID}");
+
+                DALShoppingCart cart = new DALShoppingCart();
+                cart.RemoveCartItem(userData.UserId, selectedItem as OrderItem);
             }
             UpdateTotal();
             
@@ -262,16 +282,36 @@ namespace BookStoreGUI {
                 editDialog.InStockTextBox.Text = selectedRow["InStock"].ToString();
 
                 // load categories and suppliers
-                editDialog.CategoryComboBox.ItemsSource = dsBookCat.Tables["Category"].DefaultView;
+                BookCatalog bookCatalog = new BookCatalog();
+                DataSet dsBookData = bookCatalog.GetBooks(userData.IsManager);
+                editDialog.CategoryComboBox.ItemsSource = dsBookData.Tables["Category"].DefaultView;
                 editDialog.CategoryComboBox.SelectedValue = selectedRow["CategoryID"];
 
-                editDialog.SupplierComboBox.ItemsSource = dsBookCat.Tables["Supplier"].DefaultView;
+                editDialog.SupplierComboBox.ItemsSource = dsBookData.Tables["Supplier"].DefaultView;
                 editDialog.SupplierComboBox.SelectedValue = selectedRow["SupplierId"];
 
                 editDialog.Owner = this;
                 if (editDialog.ShowDialog() == true) {
-                    MessageBox.Show("Book updated successfully.");
-                    RefreshBooks();
+                    string errorMessage = bookCatalog.UpdateBook(
+                        editDialog.ISBNTextBox.Text,
+                        editDialog.TitleTextBox.Text,
+                        editDialog.AuthorTextBox.Text,
+                        decimal.Parse(editDialog.PriceTextBox.Text),
+                        editDialog.YearTextBox.Text,
+                        editDialog.PublisherTextBox.Text,
+                        int.Parse(editDialog.CategoryComboBox.SelectedValue.ToString()),
+                        int.Parse(editDialog.SupplierComboBox.SelectedValue.ToString()),
+                        int.Parse(editDialog.InStockTextBox.Text),
+                        editDialog.EditionTextBox.Text
+                    );
+
+                    if (!string.IsNullOrEmpty(errorMessage)) {
+                        MessageBox.Show(errorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    else {
+                        MessageBox.Show("Book updated successfully.");
+                        RefreshBooks();
+                    }
                 }
             }
         }
