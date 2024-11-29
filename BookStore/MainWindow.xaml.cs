@@ -193,15 +193,17 @@ namespace BookStoreGUI {
                 {
                     if(Int32.TryParse(editOrderdialog.quantityTextBox.Text, out int quantity))
                     {
-                        if(quantity > 0)
+                        DALShoppingCart cart = new DALShoppingCart();
+                        if (quantity > 0)
                         {
                             bookOrder.SetQuantity((selectedItem as OrderItem), quantity);
-                            DALShoppingCart cart = new DALShoppingCart();
+                            
                             cart.EditCartItem(userData.UserId, selectedItem  as OrderItem);
                         }
                         else if(quantity == 0)
                         {
                             bookOrder.RemoveItem((selectedItem as OrderItem)?.BookID);
+                            cart.RemoveCartItem(userData.UserId, selectedItem as OrderItem);
                         }
                         else
                         {
