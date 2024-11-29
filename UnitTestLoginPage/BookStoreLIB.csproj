@@ -130,6 +130,7 @@
     <Compile Include="ShoppingCartTests.cs" />
     <Compile Include="UserData.cs" />
     <Compile Include="Wishlist.cs" />
+    <Compile Include="WishlistItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
