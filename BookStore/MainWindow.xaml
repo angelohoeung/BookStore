@@ -102,7 +102,7 @@
                 <Button x:Name="addButton" MinHeight="25" MinWidth="80"
                         Content="Add Book" Click="addButton_Click" />
                 <Button x:Name="wishlistButton" MinHeight="25" MinWidth="80" 
-                        Content="Add to Wish list" Click="wishlistButton_Click" 
+                        Content="Add to Wishlist" Click="wishlistButton_Click" 
                         Margin="10,0,0,0"/>
                 <Button x:Name="searchButton" MinHeight="25" MinWidth="80" 
                          Content="Search for Books" Click="searchButton_Click" 
