@@ -12,10 +12,11 @@ namespace BookStoreLIB
 {
     internal class Wishlist
     {
-        public int addItemToWishlist(int UserId, int ItemId)
+        public int addItemToWishlist(int UserId, string Isbn)
         {
             var conn = new SqlConnection(Properties.Settings.Default.Connection);
             int newWishlistItemId = -1;
+ 
             try
             {
                 conn.Open();
@@ -25,11 +26,12 @@ namespace BookStoreLIB
                     cmd.Connection = conn;
                     cmd.Transaction = transaction;
 
-                    cmd.CommandText = "INSERT INTO WishlistItems (UserId, ItemId) " +
+                    cmd.CommandText = "INSERT INTO WishlistItems (UserId, Isbn) " +
                                       "OUTPUT INSERTED.OrderId " +
-                                      "VALUES (@UserId, @ItemId)";
-
-                   
+                                      "VALUES (@UserId, @Isbn)";
+                    cmd.Parameters.AddWithValue("@UserId", UserId);
+                    cmd.Parameters.AddWithValue("@Isbn", Isbn);
+                    newWishlistItemId = (int)cmd.ExecuteScalar();
 
                     transaction.Commit();
                 }
@@ -49,7 +51,42 @@ namespace BookStoreLIB
 
             return newWishlistItemId;
         }
+
+
+        public int addItemWishlistItemToOrder(int OrderId, WishlistItem item)
+        {
+            var conn = new SqlConnection(Properties.Settings.Default.Connection);
+            int newOrderItemId = -1;
+            DALOrder order = new DALOrder();
+
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "INSERT INTO OrderItem (OrderId, ISBN, Quantity) VALUES (@OrderId, @ISBN, @Quantity)";
+
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddWithValue("@OrderId", OrderId);
+                cmd.Parameters.AddWithValue("@ISBN", item.Isbn);
+                cmd.Parameters.AddWithValue("@Quantity", 1);
+
+                cmd.ExecuteNonQuery();
+                return newOrderItemId;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+                return -1;
+            }
+
+            return newOrderItemId;
+        }
     }
 
-   
+    private int checkBookStock(string Isbn)
+    {
+        DALBookCatalog catalog = new DALBookCatalog();
+
+    }
+
+    public Observable
 }
