@@ -137,5 +137,36 @@ namespace BookStoreLIB
             Assert.AreEqual(0.0, bookOrder.GetOrderTotal());
         }
 
+        // Below are additional tests for the persistent shopping cart feature
+        [TestMethod]
+        public void PersistentShoppingCartAddRemoveItem()
+        {
+            OrderItem item = new OrderItem("1234345", "Some Title", 200.50, 2);
+            DALShoppingCart cart = new DALShoppingCart();
+            Assert.IsTrue(cart.AddCartItem(19, item));
+            Assert.IsTrue(cart.GetCartItems(19).Count > 0);
+            Assert.IsTrue(cart.RemoveCartItem(19, item));
+        }
+
+        [TestMethod]
+        public void PersistentShoppingCartEditItem()
+        {
+            DALShoppingCart cart = new DALShoppingCart();
+            cart.AddCartItem(19, new OrderItem("1234345", "Some Title", 200.50, 2));
+
+            var items = cart.GetCartItems(19);
+
+            Assert.IsTrue(items.Count > 0);
+            items[0].Quantity = 20; // Edit quantity
+            cart.EditCartItem(19, items[0]);
+
+            //Check that updated quantity is saved
+            items = cart.GetCartItems(19);
+            Assert.IsTrue(items[0].Quantity == 20);
+
+            // Clean test item from the DB
+            cart.RemoveCartItem(19, items[0]);
+        }
+
     }
 }
