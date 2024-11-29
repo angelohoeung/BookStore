@@ -6,11 +6,18 @@ using System.Threading.Tasks;
 
 namespace BookStoreLIB
 {
-    internal class WishlistItem
+    public class WishlistItem
     {
         public int UserId { get; set; }
         public string Isbn { get; set; }
+        public string BookName { get; set; }
+        public double Price { get; set; }
 
-
+        public WishlistItem(string Isbn, string BookName, double Price)
+        {
+            this.Isbn = Isbn;
+            this.BookName = BookName;
+            this.Price = Price;
+        }
     }
 }

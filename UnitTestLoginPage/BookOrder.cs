@@ -12,6 +12,10 @@ namespace BookStoreLIB
         ObservableCollection<OrderItem> orderItemList = new
             ObservableCollection<OrderItem>();
         
+        public BookOrder()
+        {
+            
+        }
         public ObservableCollection<OrderItem> OrderItemList
         {
             get { return orderItemList; }
