@@ -93,6 +93,11 @@ namespace BookStoreGUI {
             }
         }
 
+        private void PastOrder_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("This past order has been clicked");
+        } 
+
         private void BackButton_Click(object sender, RoutedEventArgs e) {
             this.Close();
         }

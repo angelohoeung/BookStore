@@ -4,6 +4,7 @@ using System.Diagnostics;
 
 namespace BookStoreLIB {
     internal class DALUserInfo {
+
         public int LogIn(string username, string password) {
             var conn = new SqlConnection(Properties.Settings.Default.Connection);
             try {

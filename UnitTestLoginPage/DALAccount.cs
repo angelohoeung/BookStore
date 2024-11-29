@@ -151,5 +151,36 @@ namespace BookStoreLIB
             }
         }
 
+        //-------------function to get order history by users
+        public DataSet getOrderHistoryByUserID (int UserID)
+        {
+            try
+            {
+                String strSQL =
+                    @"
+                    SELECT 
+                        OrderID,
+                        UserID, 
+                        OrderDate, 
+                        Status,
+                        DiscountPercent
+                    FROM 
+                        Orders 
+                    WHERE 
+                        UserID = @UserID";
+
+                using (SqlCommand cmdGetOrder = new SqlCommand(strSQL, conn))
+                {
+                    cmdGetOrder.Parameters.AddWithValue("@UserID", UserID);
+
+                    SqlDataAdapter daOrder = new SqlDataAdapter(cmdGetOrder);
+                    dsAccountInfo = new DataSet("Orders");
+                    daOrder.Fill(dsAccountInfo, "Orders");
+                }
+            }
+            catch (Exception ex) { return null; }
+            return dsAccountInfo;
+        }
+
     }
 }

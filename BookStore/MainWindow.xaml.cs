@@ -143,6 +143,7 @@ namespace BookStoreGUI {
             }
             UpdateTotal();
         }
+
         private void chechoutButton_Click(object sender, RoutedEventArgs e) {
             if (userData.UserId > 0 && bookOrder.OrderItemList.Count() > 0) {
                 PaymentWindow pw = new PaymentWindow() { Owner = this };
@@ -164,6 +165,9 @@ namespace BookStoreGUI {
         }
 
         private void AccountButton_Click(object sender, RoutedEventArgs e) {
+            //REMOOOOOOVEEE --------- static value on development
+
+            //userData.UserId = 1;
             if (userData.UserId > 0) {
                 AccountManagementWindow accountWindow = new AccountManagementWindow(userData);
                 accountWindow.Owner = this;
