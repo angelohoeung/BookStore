@@ -85,6 +85,12 @@ namespace BookStoreGUI {
             }
         }
 
+        public void refreshShoppingCart(WishlistItem wishlistItem)
+        {  
+            bookOrder.AddItem(new OrderItem(wishlistItem.Isbn, wishlistItem.BookName, wishlistItem.Price, 1));
+            UpdateTotal();
+        }
+
         private void exitButton_Click(object sender, RoutedEventArgs e) { this.Close(); }
         public MainWindow() { InitializeComponent(); }
 
@@ -356,7 +362,7 @@ namespace BookStoreGUI {
             {
                 DALWishlist wishlistDAL = new DALWishlist();
                 List<WishlistItem> items = wishlistDAL.GetWishlistItems(userData.UserId);
-                Wishlist wishlistWindow = new Wishlist(items, userData);
+                Wishlist wishlistWindow = new Wishlist(items, userData, this);
                 wishlistWindow.ShowDialog();
             }
             else

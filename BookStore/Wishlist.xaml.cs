@@ -26,13 +26,15 @@ namespace BookStoreGUI
         private ObservableCollection<WishlistItem> wishlist;
         private DALWishlist dalWishlist;
         private UserData user;
+        private MainWindow mainWindow;
 
-        public Wishlist(List<WishlistItem> wishlist, UserData user)
+        public Wishlist(List<WishlistItem> wishlist, UserData user, MainWindow mainWindow)
         {
             InitializeComponent();
             this.wishlist = new ObservableCollection<WishlistItem>(wishlist);
             this.dalWishlist = new DALWishlist();
             this.user = user;
+            this.mainWindow = mainWindow;
         }
 
         private void WindowLoaded(object sender, RoutedEventArgs e)
@@ -48,6 +50,7 @@ namespace BookStoreGUI
                 this.dalWishlist.deleteItemFromWishlist(this.user.UserId, selectedItem);
                 this.wishlist.Remove(selectedItem);
                 UpdateWindow();
+                this.mainWindow.refreshShoppingCart(selectedItem);
             }
             else
             {
