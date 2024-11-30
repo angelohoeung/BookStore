@@ -47,7 +47,7 @@
             HorizontalAlignment="Center" Margin="0,22,0,6" Width="187">
             <Button Name="addButton" Click="AddButton_Click" IsDefault="True"
             MinWidth="80" Margin="12,10,5,17.8" MaxHeight="23" MaxWidth="33">Add Item</Button>
-            <Button Name="removeButton" Click="RemoveButton_Click" IsCancel="True"
+            <Button Name="removeButton" Click="RemoveButton_Click" 
             MinWidth="80" Margin="5,10,5,17.8" MaxHeight="23" MaxWidth="33">Remove Item</Button>
         </StackPanel>
         <StackPanel Grid.Column="1"

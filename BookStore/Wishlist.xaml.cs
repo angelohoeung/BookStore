@@ -45,6 +45,7 @@ namespace BookStoreGUI
             if (wishlistListView.SelectedItem is WishlistItem selectedItem)
             {
                 this.dalWishlist.addItemWishlistItemToShoppingCart(user.UserId, selectedItem);
+                this.dalWishlist.deleteItemFromWishlist(this.user.UserId, selectedItem);
                 this.wishlist.Remove(selectedItem);
                 UpdateWindow();
             }
@@ -63,6 +64,7 @@ namespace BookStoreGUI
         {
             if (wishlistListView.SelectedItem is WishlistItem selectedItem)
             {
+                this.dalWishlist.deleteItemFromWishlist(this.user.UserId, selectedItem);
                 this.wishlist.Remove(selectedItem);
                 UpdateWindow();
             }

@@ -52,9 +52,10 @@ namespace BookStoreLIB
             //return newWishlistItemId;
         }
 
-        public void deleteItemFromWishlist(int userId, OrderItem selectedItem) {
+        public void deleteItemFromWishlist(int userId, WishlistItem selectedItem) {
             var conn = new SqlConnection(Properties.Settings.Default.Connection);
-            try {
+            try
+            {
                 conn.Open();
                 using (var transaction = conn.BeginTransaction()) {
                     SqlCommand cmd = new SqlCommand();
@@ -62,8 +63,9 @@ namespace BookStoreLIB
                     cmd.Transaction = transaction;
                     cmd.CommandText = "DELETE FROM Wishlist WHERE UserId = @userId AND Isbn = @Isbn";
                     cmd.Parameters.AddWithValue("@UserId", userId);
-                    cmd.Parameters.AddWithValue("@Isbn", selectedItem.BookID);
+                    cmd.Parameters.AddWithValue("@Isbn", selectedItem.Isbn);
                     cmd.ExecuteNonQuery();
+                    transaction.Commit();
                 }
             }
             catch (Exception ex) {
@@ -73,8 +75,6 @@ namespace BookStoreLIB
 
         public bool addItemWishlistItemToShoppingCart(int UserId, WishlistItem item)
         {
-            var conn = new SqlConnection(Properties.Settings.Default.Connection);
-            int newOrderItemId = -1;
             DALShoppingCart cart = new DALShoppingCart();
             return cart.AddCartItem(UserId, new OrderItem(item.Isbn, item.BookName, item.Price, 1));
         }
