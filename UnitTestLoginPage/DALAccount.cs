@@ -19,6 +19,45 @@ namespace BookStoreLIB
             conn = new SqlConnection(Properties.Settings.Default.Connection);
         }
 
+        //-------------function to get order history by users
+        public DataSet getOrderHistoryByUserID(int UserID)
+        {
+            try
+            {
+                String strSQL =
+                    @"
+                    SELECT 
+                        BookData.Title, 
+                        BookData.Author, 
+                        BookData.Year, 
+                        BookData.Edition, 
+                        BookData.Publisher, 
+                        BookData.Price, 
+                        Orders.OrderDate
+                    FROM 
+                        Orders
+                    INNER JOIN 
+                        OrderItem 
+                        ON Orders.OrderID = OrderItem.OrderID
+                    INNER JOIN 
+                        BookData 
+                        ON OrderItem.ISBN = BookData.ISBN
+                    WHERE 
+                        Orders.UserID = @UserID";
+
+                using (SqlCommand cmdGetOrder = new SqlCommand(strSQL, conn))
+                {
+                    cmdGetOrder.Parameters.AddWithValue("@UserID", UserID);
+
+                    SqlDataAdapter daOrder = new SqlDataAdapter(cmdGetOrder);
+                    dsAccountInfo = new DataSet("Orders");
+                    daOrder.Fill(dsAccountInfo, "Orders");
+                }
+            }
+            catch (Exception ex) { return null; }
+            return dsAccountInfo;
+        }
+
         public DataSet GetAccountInfo(int userId)
         {
             try
@@ -149,37 +188,6 @@ namespace BookStoreLIB
                     return false;
                 }
             }
-        }
-
-        //-------------function to get order history by users
-        public DataSet getOrderHistoryByUserID (int UserID)
-        {
-            try
-            {
-                String strSQL =
-                    @"
-                    SELECT 
-                        OrderID,
-                        UserID, 
-                        OrderDate, 
-                        Status,
-                        DiscountPercent
-                    FROM 
-                        Orders 
-                    WHERE 
-                        UserID = @UserID";
-
-                using (SqlCommand cmdGetOrder = new SqlCommand(strSQL, conn))
-                {
-                    cmdGetOrder.Parameters.AddWithValue("@UserID", UserID);
-
-                    SqlDataAdapter daOrder = new SqlDataAdapter(cmdGetOrder);
-                    dsAccountInfo = new DataSet("Orders");
-                    daOrder.Fill(dsAccountInfo, "Orders");
-                }
-            }
-            catch (Exception ex) { return null; }
-            return dsAccountInfo;
         }
 
     }

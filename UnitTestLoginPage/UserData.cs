@@ -254,6 +254,43 @@ namespace BookStoreLIB {
                 };
             }
         }
+
+        public Response GetOrderHistory(int userId)
+        {
+            try
+            {
+                DALAccount dlaAccount = new DALAccount();
+                DataSet ds_account = dlaAccount.getOrderHistoryByUserID(userId);
+                if (ds_account.Tables["Orders"].Rows.Count == 0)
+                {
+                    return new Response()
+                    {
+                        message = "Please check your network and restart the program.",
+                        err = true,
+                    };
+                }
+                else
+                {
+                    return new Response()
+                    {
+                        message = "Data fetched successfully",
+                        data = ds_account,
+                        err = false
+                    };
+                }
+
+            }
+            catch (Exception e)
+            {
+                return new Response()
+                {
+                    message = $"Error: {e.Message}",
+                    err = true
+                };
+            }
+        }
+
+
     }
 
 }

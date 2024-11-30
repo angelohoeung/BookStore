@@ -95,8 +95,26 @@ namespace BookStoreGUI {
 
         private void PastOrder_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("This past order has been clicked");
-        } 
+            PastOrderDialog poView = new PastOrderDialog();
+            Response res = _userData.GetOrderHistory(_userData.UserId);
+            if(res.err)
+            {
+                MessageBox.Show(res.message);
+            }
+            else
+            {
+                _accountDataSet = res.data;
+            }
+
+            poView.Owner = this;
+            poView.Title = "Order History";
+
+            poView.PastOrderDataGrid.ItemsSource = _accountDataSet.Tables["Orders"].DefaultView;
+            if (poView.ShowDialog() == true)
+            {
+                //Code here after the PastOrderDialog is closed
+            }
+        }
 
         private void BackButton_Click(object sender, RoutedEventArgs e) {
             this.Close();

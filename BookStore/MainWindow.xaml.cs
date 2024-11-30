@@ -165,9 +165,8 @@ namespace BookStoreGUI {
         }
 
         private void AccountButton_Click(object sender, RoutedEventArgs e) {
-            //REMOOOOOOVEEE --------- static value on development
-
-            //userData.UserId = 1;
+            //REMOVE --------- static value on development
+            userData.UserId = 1;
             if (userData.UserId > 0) {
                 AccountManagementWindow accountWindow = new AccountManagementWindow(userData);
                 accountWindow.Owner = this;
