@@ -109,8 +109,10 @@
                          Margin="10,0,0,0"/>
                 <Button x:Name="checkoutOrderButton" MinHeight="25" MinWidth="80"
                         Content="Proceed to Checkout" Click="chechoutButton_Click" 
-                        Width="121" Margin="80,0,0,0"/>
+                        Width="118" Margin="84,0,0,0"/>
             </StackPanel>
+            <Button x:Name="viewWishlistButton" MinHeight="25" MinWidth="80"
+            Content="View Wishlist" Click="AccountButton_Click" Width="121" Margin="366,0,0,10"/>
             <Button x:Name="accountButton" MinHeight="25" MinWidth="80"
 		    Content="Account" Click="AccountButton_Click" Width="121" Margin="366,0,0,0"/>
         </StackPanel>
