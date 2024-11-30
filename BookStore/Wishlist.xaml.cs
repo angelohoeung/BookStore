@@ -37,13 +37,12 @@ namespace BookStoreGUI
         {
             UpdateWindow();
         }
-        private void AddButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void AddButton_Click(object sender, RoutedEventArgs e) {
             this.DialogResult = true;
-            this.dalWishlist.addItemWishlistItemToShoppingCart(this.wishlistTextBlock.)
+            //this.dalWishlist.addItemWishlistItemToShoppingCart(this.wishlistTextBlock.)
 
             this.UpdateWindow();
-            
+
         }
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)

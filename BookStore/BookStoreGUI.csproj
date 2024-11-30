@@ -215,10 +215,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\UnitTestLoginPage\BookStoreLIB.csproj">
-      <Project>{cd428798-b299-4c94-aa72-56f4c8df2bdd}</Project>
-      <Name>BookStoreLIB</Name>
-    </ProjectReference>
+	  <ProjectReference Include="..\UnitTestLoginPage\BookStoreLIB.csproj">
+		  <Project>{cd428798-b299-4c94-aa72-56f4c8df2bdd}</Project>
+		  <Name>BookStoreLIB</Name>
+	  </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="EditBookDialog.xaml">

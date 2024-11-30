@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
@@ -26,8 +27,7 @@ namespace BookStoreLIB
                     cmd.Connection = conn;
                     cmd.Transaction = transaction;
 
-                    cmd.CommandText = "INSERT INTO WishlistItems (UserId, Isbn) " +
-                                      "OUTPUT INSERTED.OrderId " +
+                    cmd.CommandText = "INSERT INTO Wishlist (UserId, Isbn) " +
                                       "VALUES (@UserId, @Isbn)";
                     cmd.Parameters.AddWithValue("@UserId", UserId);
                     cmd.Parameters.AddWithValue("@Isbn", selectedItem.BookID);
@@ -52,6 +52,24 @@ namespace BookStoreLIB
             return newWishlistItemId;
         }
 
+        public void deleteItemFromWishlist(int userId, OrderItem selectedItem) {
+            var conn = new SqlConnection(Properties.Settings.Default.Connection);
+            try {
+                conn.Open();
+                using (var transaction = conn.BeginTransaction()) {
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.Connection = conn;
+                    cmd.Transaction = transaction;
+                    cmd.CommandText = "DELETE FROM Wishlist WHERE UserId = @userId AND Isbn = @Isbn";
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+                    cmd.Parameters.AddWithValue("@Isbn", selectedItem.BookID);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex) {
+                Debug.WriteLine(ex.ToString());
+            }
+        } 
 
         public bool addItemWishlistItemToShoppingCart(int UserId, WishlistItem item)
         {
