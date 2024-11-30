@@ -23,20 +23,21 @@ namespace BookStoreGUI
 
     public partial class Wishlist : Window
     {
-        private List<WishlistItem> wishlist;
+        private ObservableCollection<WishlistItem> wishlist;
         private DALWishlist dalWishlist;
         private UserData user;
 
         public Wishlist(List<WishlistItem> wishlist, UserData user)
         {
             InitializeComponent();
-            this.wishlist = wishlist;
+            this.wishlist = new ObservableCollection<WishlistItem>(wishlist);
             this.dalWishlist = new DALWishlist();
             this.user = user;
         }
 
         private void WindowLoaded(object sender, RoutedEventArgs e)
         {
+            wishlistListView.ItemsSource = this.wishlist;
             UpdateWindow();
         }
         private void AddButton_Click(object sender, RoutedEventArgs e)
