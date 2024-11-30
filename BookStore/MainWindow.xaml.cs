@@ -235,6 +235,20 @@ namespace BookStoreGUI {
             searchWindow.ShowDialog();
         }
 
+        private void reviewButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (userData.UserId <= 0)
+            {
+                MessageBox.Show("You must be logged in to add reviews!");
+            }
+            else
+            {
+                BookReview reviewWindow = new BookReview(userData);
+                reviewWindow.Owner = this;
+                reviewWindow.ShowDialog();
+            }
+        }
+
         private void RefreshBooks() {
             BookCatalog bookCat = new BookCatalog();
             dsBookCat = bookCat.GetBooks(userData.IsManager);
