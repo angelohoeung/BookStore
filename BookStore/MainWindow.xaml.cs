@@ -357,7 +357,7 @@ namespace BookStoreGUI {
             {
                 DALWishlist wishlistDAL = new DALWishlist();
                 List<WishlistItem> items = wishlistDAL.GetWishlistItems(userData.UserId);
-                Wishlist wishlistWindow = new Wishlist(items);
+                Wishlist wishlistWindow = new Wishlist(items, userData);
                 wishlistWindow.ShowDialog();
             }
             else
