@@ -350,6 +350,20 @@ namespace BookStoreGUI {
             }
         }
 
+        private void ViewWishlistButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (userData.UserId > 0)
+            {
+                Wishlist wishlistWindow = new Wishlist();
+                
+                wishlistWindow.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("You are not logged in. Please log in to access account management.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         public bool IsManager {
             get { return userData.IsManager; }
         }
