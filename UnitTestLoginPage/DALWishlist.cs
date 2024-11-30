@@ -88,16 +88,16 @@ namespace BookStoreLIB
 
             string query = @"
                             SELECT 
-                                W.ISBN AS BookID, 
+                                W.Isbn AS BookID, 
                                 BD.Title AS BookTitle, 
                                 BD.Price as Price
                                
                             FROM 
-                                WishlistItems W
+                                Wishlist W
                             INNER JOIN 
-                                BookData BD ON W.ISBN = BD.ISBN
+                                BookData BD ON W.Isbn = BD.ISBN
                             WHERE 
-                                W.UserID = @LoggedInUserID;";
+                                W.UserId = @LoggedInUserID;";
 
             try
             {
