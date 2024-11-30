@@ -99,8 +99,8 @@ namespace BookStoreLIB
                             WHERE 
                                 W.UserId = @LoggedInUserID;";
 
-            try
-            {
+            //try
+            //{
                 using (SqlConnection connection = new SqlConnection(Properties.Settings.Default.Connection))
                 {
                     connection.Open();
@@ -113,18 +113,17 @@ namespace BookStoreLIB
                             {
                                 string bookId = reader.GetString(reader.GetOrdinal("BookID"));
                                 string bookTitle = reader.GetString(reader.GetOrdinal("BookTitle"));
-                                double price = reader.GetDouble(reader.GetOrdinal("Price"));
+                                double price = (double)reader.GetDecimal(reader.GetOrdinal("Price"));
                                 items.Add(new WishlistItem(bookId, bookTitle, price));
-
                             }
                         }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine(ex);
+            //}
             return items;
         }
     }
