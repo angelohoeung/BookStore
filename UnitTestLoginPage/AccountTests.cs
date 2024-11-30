@@ -162,5 +162,21 @@ namespace BookStoreLIB {
             Assert.IsTrue(response.err);
             Assert.AreEqual("Something happens during the process", response.message);
         }
+
+        [TestMethod]
+        public void GetOrderHistory_ValidUserId_ReturnOrdersTable()
+        {
+            var response = userData.GetOrderHistory(1);
+            Assert.IsFalse(response.err);
+            Assert.AreEqual("Data fetched successfully", response.message);
+        }
+
+        [TestMethod]
+        public void GetOrderHistory_InvalidUserId_ReturnNullDataSet()
+        {
+            var response = userData.GetOrderHistory(100);
+            Assert.IsTrue(response.err);
+            Assert.AreEqual("There is no record of order for the user", response.message);
+        }
     }
 }

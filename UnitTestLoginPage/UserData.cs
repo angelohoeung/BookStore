@@ -265,7 +265,7 @@ namespace BookStoreLIB {
                 {
                     return new Response()
                     {
-                        message = "Please check your network and restart the program.",
+                        message = "There is no record of order for the user",
                         err = true,
                     };
                 }
