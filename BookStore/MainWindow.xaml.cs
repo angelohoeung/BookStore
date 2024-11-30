@@ -4,6 +4,7 @@
  * **********************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
@@ -354,8 +355,9 @@ namespace BookStoreGUI {
         {
             if (userData.UserId > 0)
             {
-                Wishlist wishlistWindow = new Wishlist();
-                
+                DALWishlist wishlistDAL = new DALWishlist();
+                List<WishlistItem> items = wishlistDAL.GetWishlistItems(userData.UserId);
+                Wishlist wishlistWindow = new Wishlist(items);
                 wishlistWindow.ShowDialog();
             }
             else

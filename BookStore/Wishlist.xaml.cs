@@ -23,10 +23,10 @@ namespace BookStoreGUI
 
     public partial class Wishlist : Window
     {
-        private ObservableCollection<WishlistItem> wishlist;
+        private List<WishlistItem> wishlist;
         private DALWishlist dalWishlist;
 
-        public Wishlist(ObservableCollection<WishlistItem> wishlist)
+        public Wishlist(List<WishlistItem> wishlist)
         {
             InitializeComponent();
             this.wishlist = wishlist;
