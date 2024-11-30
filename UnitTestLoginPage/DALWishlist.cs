@@ -13,13 +13,13 @@ namespace BookStoreLIB
 {
     public class DALWishlist
     {
-        public int addItemToWishlist(int UserId, OrderItem selectedItem)
+        public void addItemToWishlist(int UserId, DataRowView selectedItem)
         {
             var conn = new SqlConnection(Properties.Settings.Default.Connection);
-            int newWishlistItemId = -1;
+            //int newWishlistItemId = -1;
  
-            try
-            {
+            //try
+            //{
                 conn.Open();
                 using (var transaction = conn.BeginTransaction())
                 {
@@ -30,26 +30,26 @@ namespace BookStoreLIB
                     cmd.CommandText = "INSERT INTO Wishlist (UserId, Isbn) " +
                                       "VALUES (@UserId, @Isbn)";
                     cmd.Parameters.AddWithValue("@UserId", UserId);
-                    cmd.Parameters.AddWithValue("@Isbn", selectedItem.BookID);
-                    newWishlistItemId = (int)cmd.ExecuteScalar();
+                    cmd.Parameters.AddWithValue("@Isbn", selectedItem["Isbn"].ToString());
+                    cmd.ExecuteNonQuery();
 
                     transaction.Commit();
                 }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.ToString());
-                return -1;
-            }
-            finally
-            {
-                if (conn.State == ConnectionState.Open)
-                {
-                    conn.Close();
-                }
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Debug.WriteLine(ex.ToString());
+            //    //return -1;
+            //}
+            //finally
+            //{
+            //    if (conn.State == ConnectionState.Open)
+            //    {
+            //        conn.Close();
+            //    }
+            //}
 
-            return newWishlistItemId;
+            //return newWishlistItemId;
         }
 
         public void deleteItemFromWishlist(int userId, OrderItem selectedItem) {
@@ -99,8 +99,8 @@ namespace BookStoreLIB
                             WHERE 
                                 W.UserId = @LoggedInUserID;";
 
-            try
-            {
+            //try
+            //{
                 using (SqlConnection connection = new SqlConnection(Properties.Settings.Default.Connection))
                 {
                     connection.Open();
@@ -113,18 +113,17 @@ namespace BookStoreLIB
                             {
                                 string bookId = reader.GetString(reader.GetOrdinal("BookID"));
                                 string bookTitle = reader.GetString(reader.GetOrdinal("BookTitle"));
-                                double price = reader.GetDouble(reader.GetOrdinal("Price"));
+                                double price = (double)reader.GetDecimal(reader.GetOrdinal("Price"));
                                 items.Add(new WishlistItem(bookId, bookTitle, price));
-
                             }
                         }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine(ex);
+            //}
             return items;
         }
     }

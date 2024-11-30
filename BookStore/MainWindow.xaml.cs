@@ -260,10 +260,9 @@ namespace BookStoreGUI {
 
         private void wishlistButton_Click(Object sender, RoutedEventArgs e)
         {
-            if (orderListView.SelectedItem != null && userData.UserId > 0)
-            {
+            if (ProductsDataGrid.SelectedItems.Count > 0) {
                 DALWishlist wishlist = new DALWishlist();
-                wishlist.addItemToWishlist(userData.UserId, orderListView.SelectedItem as OrderItem);
+                wishlist.addItemToWishlist(userData.UserId, ProductsDataGrid.SelectedItem as DataRowView);
             }
         }
 
