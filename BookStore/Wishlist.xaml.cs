@@ -47,7 +47,7 @@ namespace BookStoreGUI
             if (wishlistListView.SelectedItem is WishlistItem selectedItem)
             {
                 this.dalWishlist.addItemWishlistItemToShoppingCart(user.UserId, selectedItem);
-                this.dalWishlist.deleteItemFromWishlist(this.user.UserId, selectedItem.Isbn);
+                this.dalWishlist.deleteItemFromWishlist(this.user.UserId, selectedItem.WishlistItemId);
                 this.wishlist.Remove(selectedItem);
                 UpdateWindow();
                 this.mainWindow.refreshShoppingCart(selectedItem);
@@ -67,7 +67,7 @@ namespace BookStoreGUI
         {
             if (wishlistListView.SelectedItem is WishlistItem selectedItem)
             {
-                this.dalWishlist.deleteItemFromWishlist(this.user.UserId, selectedItem.Isbn);
+                this.dalWishlist.deleteItemFromWishlist(this.user.UserId, selectedItem.WishlistItemId);
                 this.wishlist.Remove(selectedItem);
                 UpdateWindow();
             }

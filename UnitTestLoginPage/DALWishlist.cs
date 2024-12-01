@@ -48,7 +48,7 @@ namespace BookStoreLIB
             //return newWishlistItemId;
         }
 
-        public void deleteItemFromWishlist(int userId, string isbn) {
+        public void deleteItemFromWishlist(int userId, int id) {
             var conn = new SqlConnection(Properties.Settings.Default.Connection);
             try
             {
@@ -57,9 +57,9 @@ namespace BookStoreLIB
                     SqlCommand cmd = new SqlCommand();
                     cmd.Connection = conn;
                     cmd.Transaction = transaction;
-                    cmd.CommandText = "DELETE FROM Wishlist WHERE UserId = @userId AND Isbn = @Isbn";
+                    cmd.CommandText = "DELETE FROM Wishlist WHERE UserId = @userId AND WishlistItemId = @WishlistItemId";
                     cmd.Parameters.AddWithValue("@UserId", userId);
-                    cmd.Parameters.AddWithValue("@Isbn", isbn);
+                    cmd.Parameters.AddWithValue("@WishlistItemId", id);
                     cmd.ExecuteNonQuery();
                     transaction.Commit();
                 }
@@ -84,6 +84,7 @@ namespace BookStoreLIB
 
             string query = @"
                             SELECT 
+                                W.WishlistItemId as Id,
                                 W.Isbn AS BookID, 
                                 BD.Title AS BookTitle, 
                                 BD.Price as Price
@@ -106,10 +107,13 @@ namespace BookStoreLIB
                         {
                             while (reader.Read())
                             {
+                                int wishlistItemId = reader.GetInt32(reader.GetOrdinal("Id"));
                                 string bookId = reader.GetString(reader.GetOrdinal("BookID"));
                                 string bookTitle = reader.GetString(reader.GetOrdinal("BookTitle"));
                                 double price = (double)reader.GetDecimal(reader.GetOrdinal("Price"));
-                                items.Add(new WishlistItem(bookId, bookTitle, price));
+                                var item = new WishlistItem(bookId, bookTitle, price);
+                                item.WishlistItemId = wishlistItemId;
+                                items.Add(item);
                             }
                         }
                     }
@@ -119,6 +123,33 @@ namespace BookStoreLIB
                 Console.WriteLine(ex);
             }
             return items;
+        }
+        public int GetCurrentWishlistItemId() {
+            var conn = new SqlConnection(Properties.Settings.Default.Connection);
+            int currentId = 0;
+
+            try {
+                conn.Open();
+                string query = "SELECT IDENT_CURRENT('Wishlist')";
+
+                using (SqlCommand command = new SqlCommand(query, conn)) {
+                    object result = command.ExecuteScalar();
+
+                    if (result != DBNull.Value) {
+                        currentId = Convert.ToInt32(result); 
+                    }
+                }
+            }
+            catch (Exception ex) {
+                Debug.WriteLine($"Error fetching current identity value: {ex.ToString()}");
+            }
+            finally {
+                if (conn.State == ConnectionState.Open) {
+                    conn.Close();
+                }
+            }
+
+            return currentId;
         }
     }
 }

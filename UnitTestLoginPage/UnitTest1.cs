@@ -2,6 +2,7 @@
 using System;
 using System.Data;
 using System.Diagnostics;
+using System.Linq;
 
 namespace BookStoreLIB {
     [TestClass]
@@ -116,8 +117,41 @@ namespace BookStoreLIB {
             var orderId = bookOrder.PlaceOrder(1);
             Assert.IsTrue(orderId > 0);
         }
+        // check that adding a book to the wishlist works
         [TestMethod]
         public void TestAddToWishlist() {
+            inputName = "hutz";
+            inputPassword = "zh12345";
+            userData.LogIn(inputName, inputPassword);
+
+            DataTable table = new DataTable();
+            table.Columns.Add("WishlistItemId", typeof(int));
+            table.Columns.Add("UserId", typeof(int));
+            table.Columns.Add("Isbn", typeof(string));
+
+            DataRow row = table.NewRow();
+            row["WishlistItemId"] = 0;
+            row["UserId"] = userData.UserId;
+            row["Isbn"] = "0135974445";
+
+            table.Rows.Add(row);
+
+            DataRowView rowView = table.DefaultView[0];
+
+            DALWishlist wishlistDAL = new DALWishlist();
+
+            var list = wishlistDAL.GetWishlistItems(userData.UserId);
+            int oldLastId = (list.Count > 0) ? list.Last().WishlistItemId : wishlistDAL.GetCurrentWishlistItemId();
+            wishlistDAL.addItemToWishlist(userData.UserId, rowView);
+            list = wishlistDAL.GetWishlistItems(userData.UserId);
+            row["WishlistItemId"] = list.Last().WishlistItemId;
+
+            Assert.AreEqual(list.Last().WishlistItemId, oldLastId+1);
+            wishlistDAL.deleteItemFromWishlist(userData.UserId, list.Last().WishlistItemId);
+        }
+        // check that removing a book from the wishlist works
+        [TestMethod]
+        public void TestRemoveFromWishList() {
             inputName = "hutz";
             inputPassword = "zh12345";
             userData.LogIn(inputName, inputPassword);
@@ -139,9 +173,70 @@ namespace BookStoreLIB {
             DALWishlist wishlistDAL = new DALWishlist();
             wishlistDAL.addItemToWishlist(userData.UserId, rowView);
             var list = wishlistDAL.GetWishlistItems(userData.UserId);
-            Assert.AreEqual(row["Isbn"], list[0].Isbn);
-            wishlistDAL.deleteItemFromWishlist(userData.UserId, "0135974445");
+            int wishlistLength = list.Count;
+            wishlistDAL.deleteItemFromWishlist(userData.UserId, list.Last().WishlistItemId);
+            Assert.AreEqual(wishlistLength-1, wishlistDAL.GetWishlistItems(userData.UserId).Count);
         }
+        // check that adding a book to the shopping cart from the wishlist works
+        [TestMethod]
+        public void TestAddWishlistItemToCart() {
+            inputName = "hutz";
+            inputPassword = "zh12345";
+            userData.LogIn(inputName, inputPassword);
 
+            DataTable table = new DataTable();
+            table.Columns.Add("WishlistItemId", typeof(int));
+            table.Columns.Add("UserId", typeof(int));
+            table.Columns.Add("Isbn", typeof(string));
+
+            DataRow row = table.NewRow();
+            row["WishlistItemId"] = 1;
+            row["UserId"] = userData.UserId;
+            row["Isbn"] = "161729134X";
+            table.Rows.Add(row);
+            DataRowView rowView = table.DefaultView[0];
+
+            DALShoppingCart dalCart = new DALShoppingCart();
+            var cart = dalCart.GetCartItems(userData.UserId);
+            int totalQuantityBeforeAdding = 0;
+            foreach (var item in cart) {
+                totalQuantityBeforeAdding += item.Quantity;
+            }
+            DALWishlist wishlistDAL = new DALWishlist();
+            wishlistDAL.addItemToWishlist(userData.UserId, rowView);
+            var list = wishlistDAL.GetWishlistItems(userData.UserId);
+            var testItem = new WishlistItem("161729134X", "NULLC# in Depth", 41.22);
+
+            int oldQuantity = 0;
+            var matchingCartItems = cart
+                .Where(cartItem => list.Any(wishlistItem => wishlistItem.Isbn == cartItem.BookID))
+                .ToList();
+            if (matchingCartItems.Count > 0)
+                foreach(var item in matchingCartItems) {
+                    oldQuantity += item.Quantity;
+                }
+
+            wishlistDAL.addItemWishlistItemToShoppingCart(userData.UserId, testItem);
+            cart = dalCart.GetCartItems(userData.UserId);
+
+            int newQuantity = 0;
+            var newCartItems = cart.Where(cartItem => list.Any(wishlistItem => wishlistItem.Isbn == cartItem.BookID)).ToList();
+            if (newCartItems.Count > 0)
+                foreach (var item in newCartItems) {
+                    newQuantity += item.Quantity;
+                }
+            Assert.AreEqual(oldQuantity+1, newQuantity);
+            int updatedQuantity = 0;
+            foreach (var item in cart) {
+                updatedQuantity += item.Quantity;
+            }
+            Assert.AreEqual(totalQuantityBeforeAdding+1, updatedQuantity);
+
+            wishlistDAL.deleteItemFromWishlist(userData.UserId, list.Last().WishlistItemId);
+            var orderItem = new OrderItem("161729134X", "NULLC# in Depth", 41.22, newQuantity-1);
+            dalCart.RemoveCartItem(userData.UserId, orderItem);
+            if (oldQuantity > 0)
+                dalCart.AddCartItem(userData.UserId, orderItem);
+        }
     }
 }

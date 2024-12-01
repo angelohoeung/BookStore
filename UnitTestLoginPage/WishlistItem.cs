@@ -8,6 +8,7 @@ namespace BookStoreLIB
 {
     public class WishlistItem
     {
+        public int WishlistItemId { get; set; }
         public int UserId { get; set; }
         public string Isbn { get; set; }
         public string BookName { get; set; }
