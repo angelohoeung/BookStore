@@ -35,7 +35,7 @@ namespace BookStoreLIB
 
                 DataRelation drCat_Book = new DataRelation ("drCat_Book",
                 dsBooks.Tables["Category"].Columns["CategoryID"],
-                dsBooks.Tables["Books"].Columns["CategoryID"], false);
+                dsBooks.Tables["Books"].Columns["CategoryID"], false); 
                 dsBooks.Relations.Add(drCat_Book);       //Set up the table relation
             }
             catch (Exception ex) { Debug.WriteLine(ex.Message); }

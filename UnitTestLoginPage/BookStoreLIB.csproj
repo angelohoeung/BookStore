@@ -111,12 +111,16 @@
     <Compile Include="AccountTests.cs" />
     <Compile Include="BookCatalog.cs" />
     <Compile Include="BookOrder.cs" />
+    <Compile Include="BookSales.cs" />
+    <Compile Include="DALDashboardManager.cs" />
+    <Compile Include="DashboardManager.cs" />
     <Compile Include="DALAccount.cs" />
     <Compile Include="DALBookCatalog.cs" />
     <Compile Include="DALOrder.cs" />
     <Compile Include="DALShoppingCart.cs" />
     <Compile Include="DALUserInfo.cs" />
     <Compile Include="EditBookListingTests.cs" />
+    <Compile Include="Inventory.cs" />
     <Compile Include="OrderItem.cs" />
     <Compile Include="PaymentWindow.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -130,6 +134,7 @@
     <Compile Include="TestSearch.cs" />
     <Compile Include="SignUpUnitTests.cs" />
     <Compile Include="ShoppingCartTests.cs" />
+    <Compile Include="ManagerDashboardTests.cs" />
     <Compile Include="UserData.cs" />
     <Compile Include="DALWishlist.cs" />
     <Compile Include="WishlistItem.cs" />

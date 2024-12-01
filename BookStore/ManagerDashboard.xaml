@@ -1,0 +1,50 @@
+﻿<Window x:Class="BookStoreGUI.ManagerDashboard"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BookStoreGUI"
+        mc:Ignorable="d"
+        Title="ManagerDashboard" Height="400" Width="940">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Margin="2" HorizontalAlignment="Center">Top Seller</Label>
+        <Label Grid.Column="0" Grid.Row="3" Margin="2" HorizontalAlignment="Center">This Weeks Sales</Label>
+        <Label Grid.Column="1" Grid.Row="3" Margin="2" HorizontalAlignment="Center">Stock</Label>
+
+        <Button Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Name="closeButton" Click="closeButtonClick" IsDefault="True" MinWidth="80" Margin="40,10,5,5">Close</Button>
+
+        <DataGrid AutoGenerateColumns="False" Height="80" x:Name="TopDataGrid" RowDetailsVisibilityMode="VisibleWhenSelected" Width="920" HorizontalAlignment="Center" Margin="10,10,10,10" SelectionMode="Single" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="topTitleColumn" Binding="{Binding Book}" Header="Title" Width="50*" />
+                <DataGridTextColumn x:Name="topSoldColumn" Binding="{Binding NumberSold}" Header="Sold" Width="18*" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <DataGrid AutoGenerateColumns="False" Height="165" x:Name="SoldDataGrid" RowDetailsVisibilityMode="VisibleWhenSelected" Width="450" HorizontalAlignment="Left" Margin="10,10,10,10" SelectionMode="Single" Grid.Row="4" Grid.Column="0">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="titleColumn" Binding="{Binding Book}" Header="Title" Width="50*" />
+                <DataGridTextColumn x:Name="soldColumn" Binding="{Binding NumberSold}" Header="Sold" Width="18*" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <DataGrid AutoGenerateColumns="False" Height="165" x:Name="StockDataGrid" RowDetailsVisibilityMode="VisibleWhenSelected" Width="450" HorizontalAlignment="Right" Margin="10,10,10,10" SelectionMode="Single" Grid.Row="4" Grid.Column="1">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="stockTitleColumn" Binding="{Binding Book}" Header="Title" Width="50*" />
+                <DataGridTextColumn x:Name="stockColumn" Binding="{Binding Stock}" Header="Stock" Width="18*" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

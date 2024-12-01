@@ -150,6 +150,7 @@ namespace BookStoreGUI {
             }
             UpdateTotal();
         }
+
         private void chechoutButton_Click(object sender, RoutedEventArgs e) {
             if (userData.UserId > 0 && bookOrder.OrderItemList.Count() > 0) {
                 PaymentWindow pw = new PaymentWindow() { Owner = this };
@@ -373,6 +374,11 @@ namespace BookStoreGUI {
 
         public bool IsManager {
             get { return userData.IsManager; }
+        }
+        private void DashboardButtonClick(object sender, RoutedEventArgs e) {
+            int userId = userData.UserId;
+            ManagerDashboard managerDashboard = new ManagerDashboard(userId);
+            managerDashboard.ShowDialog();
         }
     }
 }

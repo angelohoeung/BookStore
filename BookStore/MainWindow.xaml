@@ -98,7 +98,7 @@
                 </TextBlock>
                 
             </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,10">
                 <Button x:Name="addButton" MinHeight="25" MinWidth="80"
                         Content="Add Book" Click="addButton_Click" />
                 <Button x:Name="wishlistButton" MinHeight="25" MinWidth="80" 
@@ -110,6 +110,11 @@
                 <Button x:Name="checkoutOrderButton" MinHeight="25" MinWidth="80"
                         Content="Proceed to Checkout" Click="chechoutButton_Click" 
                         Width="118" Margin="84,0,0,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                <Button x:Name="dashboardButton" MinHeight="25" MinWidth="80" Content="Dashboard" Click="DashboardButtonClick" Width="121"/>
+                <Button x:Name="accountButton" MinHeight="25" MinWidth="80"
+		    Content="Account" Click="AccountButton_Click" Width="121" Margin="240,0,0,0"/>
             </StackPanel>
             <Button x:Name="viewWishlistButton" MinHeight="25" MinWidth="80"
             Content="View Wishlist" Click="ViewWishlistButton_Click" Width="121" Margin="366,0,0,10"/>
