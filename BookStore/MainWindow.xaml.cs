@@ -345,5 +345,10 @@ namespace BookStoreGUI {
         public bool IsManager {
             get { return userData.IsManager; }
         }
+        private void DashboardButtonClick(object sender, RoutedEventArgs e) {
+            int userId = userData.UserId;
+            ManagerDashboard managerDashboard = new ManagerDashboard(userId);
+            managerDashboard.ShowDialog();
+        }
     }
 }
