@@ -48,7 +48,7 @@ namespace BookStoreLIB
             //return newWishlistItemId;
         }
 
-        public void deleteItemFromWishlist(int userId, WishlistItem selectedItem) {
+        public void deleteItemFromWishlist(int userId, string isbn) {
             var conn = new SqlConnection(Properties.Settings.Default.Connection);
             try
             {
@@ -59,7 +59,7 @@ namespace BookStoreLIB
                     cmd.Transaction = transaction;
                     cmd.CommandText = "DELETE FROM Wishlist WHERE UserId = @userId AND Isbn = @Isbn";
                     cmd.Parameters.AddWithValue("@UserId", userId);
-                    cmd.Parameters.AddWithValue("@Isbn", selectedItem.Isbn);
+                    cmd.Parameters.AddWithValue("@Isbn", isbn);
                     cmd.ExecuteNonQuery();
                     transaction.Commit();
                 }

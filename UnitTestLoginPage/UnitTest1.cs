@@ -152,7 +152,7 @@ namespace BookStoreLIB {
             wishlistDAL.addItemToWishlist(userData.UserId, rowView);
             var list = wishlistDAL.GetWishlistItems(userData.UserId);
             Assert.AreEqual(row["Isbn"], list[0].Isbn);
-            // need a way to delete by wishlist item ID I think
+            wishlistDAL.deleteItemFromWishlist(userData.UserId, "0135974445");
         }
 
     }
