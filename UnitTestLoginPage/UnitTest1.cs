@@ -64,9 +64,6 @@ namespace BookStoreLIB {
             bool cardNumberValidResult = paymentWindow.IsCardNumberValid(inputCardNumber);
             bool securityCodeValidResult = paymentWindow.IsSecurityCodeValid(securityCode);
             bool expirationValidResult = paymentWindow.IsExpirationDateValid(expiryDate);
-            bool expectedCardNumberResult = true;
-            bool expectedSecurityCodeValidResult = true;
-            bool expectedExpirationValidResult = true;
             Assert.IsTrue(cardNumberValidResult);
             Assert.IsTrue(securityCodeValidResult);
             Assert.IsTrue(expirationValidResult);
@@ -81,9 +78,6 @@ namespace BookStoreLIB {
             bool cardNumberValidResult = paymentWindow.IsCardNumberValid(inputCardNumber);
             bool securityCodeValidResult = paymentWindow.IsSecurityCodeValid(securityCode);
             bool expirationValidResult = paymentWindow.IsExpirationDateValid(expiryDate);
-            bool expectedCardNumberResult = true;
-            bool expectedSecurityCodeValidResult = true;
-            bool expectedExpirationValidResult = true;
             Assert.IsFalse(cardNumberValidResult);
             Assert.IsTrue(securityCodeValidResult);
             Assert.IsTrue(expirationValidResult);
@@ -98,9 +92,6 @@ namespace BookStoreLIB {
             bool cardNumberValidResult = paymentWindow.IsCardNumberValid(inputCardNumber);
             bool securityCodeValidResult = paymentWindow.IsSecurityCodeValid(securityCode);
             bool expirationValidResult = paymentWindow.IsExpirationDateValid(expiryDate);
-            bool expectedCardNumberResult = true;
-            bool expectedSecurityCodeValidResult = true;
-            bool expectedExpirationValidResult = true;
             Assert.IsTrue(cardNumberValidResult);
             Assert.IsFalse(securityCodeValidResult);
             Assert.IsTrue(expirationValidResult);
@@ -114,9 +105,6 @@ namespace BookStoreLIB {
             bool cardNumberValidResult = paymentWindow.IsCardNumberValid(inputCardNumber);
             bool securityCodeValidResult = paymentWindow.IsSecurityCodeValid(securityCode);
             bool expirationValidResult = paymentWindow.IsExpirationDateValid(expiryDate);
-            bool expectedCardNumberResult = true;
-            bool expectedSecurityCodeValidResult = true;
-            bool expectedExpirationValidResult = true;
             Assert.IsTrue(cardNumberValidResult);
             Assert.IsTrue(securityCodeValidResult);
             Assert.IsFalse(expirationValidResult);
