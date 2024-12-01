@@ -1,7 +1,7 @@
 <Window x:Class="BookStoreGUI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="XY's BookStore" Height="610" Width="650" Loaded="Window_Loaded">
+        Title="XY's BookStore" Height="650" Width="650" Loaded="Window_Loaded">
     <Grid>
         <StackPanel x:Name="LayoutRoot" DataContext="{Binding}" Orientation="Vertical" HorizontalAlignment="Left" Height="auto" Width="auto">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
@@ -101,18 +101,23 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,10">
                 <Button x:Name="addButton" MinHeight="25" MinWidth="80"
                         Content="Add Book" Click="addButton_Click" />
-                <Button x:Name="searchButton" MinHeight="25" MinWidth="80" 
-                        Content="Search for Books" Click="searchButton_Click" 
+                <Button x:Name="wishlistButton" MinHeight="25" MinWidth="80" 
+                        Content="Add to Wishlist" Click="wishlistButton_Click" 
                         Margin="10,0,0,0"/>
+                <Button x:Name="searchButton" MinHeight="25" MinWidth="80" 
+                         Content="Search for Books" Click="searchButton_Click" 
+                         Margin="10,0,0,0"/>
                 <Button x:Name="checkoutOrderButton" MinHeight="25" MinWidth="80"
                         Content="Proceed to Checkout" Click="chechoutButton_Click" 
-                        Width="121" Margin="176,0,0,0"/>
+                        Width="118" Margin="84,0,0,0"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
                 <Button x:Name="dashboardButton" MinHeight="25" MinWidth="80" Content="Dashboard" Click="DashboardButtonClick" Width="121"/>
                 <Button x:Name="accountButton" MinHeight="25" MinWidth="80"
 		    Content="Account" Click="AccountButton_Click" Width="121" Margin="240,0,0,0"/>
             </StackPanel>
+            <Button x:Name="viewWishlistButton" MinHeight="25" MinWidth="80"
+            Content="View Wishlist" Click="ViewWishlistButton_Click" Width="121" Margin="366,0,0,10"/>
         </StackPanel>
         <StatusBar VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="28" Margin="0">
             <TextBlock x:Name="statusTextBlock"><Run Text="Please login before proceeding to checkout."/></TextBlock>

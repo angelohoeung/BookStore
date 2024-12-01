@@ -4,6 +4,7 @@
  * **********************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
@@ -82,6 +83,12 @@ namespace BookStoreGUI {
                 else
                     this.statusTextBlock.Text = "Your login failed. Please try again.";
             }
+        }
+
+        public void refreshShoppingCart(WishlistItem wishlistItem)
+        {  
+            bookOrder.AddItem(new OrderItem(wishlistItem.Isbn, wishlistItem.BookName, wishlistItem.Price, 1));
+            UpdateTotal();
         }
 
         private void exitButton_Click(object sender, RoutedEventArgs e) { this.Close(); }
@@ -258,6 +265,14 @@ namespace BookStoreGUI {
             searchWindow.ShowDialog();
         }
 
+        private void wishlistButton_Click(Object sender, RoutedEventArgs e)
+        {
+            if (ProductsDataGrid.SelectedItems.Count > 0) {
+                DALWishlist wishlist = new DALWishlist();
+                wishlist.addItemToWishlist(userData.UserId, ProductsDataGrid.SelectedItem as DataRowView);
+            }
+        }
+
         private void RefreshBooks() {
             BookCatalog bookCat = new BookCatalog();
             dsBookCat = bookCat.GetBooks(userData.IsManager);
@@ -339,6 +354,21 @@ namespace BookStoreGUI {
                 else {
                     MessageBox.Show(errorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
+            }
+        }
+
+        private void ViewWishlistButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (userData.UserId > 0)
+            {
+                DALWishlist wishlistDAL = new DALWishlist();
+                List<WishlistItem> items = wishlistDAL.GetWishlistItems(userData.UserId);
+                Wishlist wishlistWindow = new Wishlist(items, userData, this);
+                wishlistWindow.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("You are not logged in. Please log in to access account management.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

@@ -136,6 +136,8 @@
     <Compile Include="ShoppingCartTests.cs" />
     <Compile Include="ManagerDashboardTests.cs" />
     <Compile Include="UserData.cs" />
+    <Compile Include="DALWishlist.cs" />
+    <Compile Include="WishlistItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
