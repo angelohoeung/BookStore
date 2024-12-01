@@ -1,5 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Data;
+using System.Diagnostics;
 
 namespace BookStoreLIB {
     [TestClass]
@@ -125,6 +127,32 @@ namespace BookStoreLIB {
             bookOrder.AddItem(new OrderItem("0321278658", "Extreme Programming Explained: Embrace Change", 44.63, 1));
             var orderId = bookOrder.PlaceOrder(1);
             Assert.IsTrue(orderId > 0);
+        }
+        [TestMethod]
+        public void TestAddToWishlist() {
+            inputName = "hutz";
+            inputPassword = "zh12345";
+            userData.LogIn(inputName, inputPassword);
+
+            DataTable table = new DataTable();
+            table.Columns.Add("WishlistItemId", typeof(int));
+            table.Columns.Add("UserId", typeof(int));
+            table.Columns.Add("Isbn", typeof(string));
+
+            DataRow row = table.NewRow();
+            row["WishlistItemId"] = 1;
+            row["UserId"] = userData.UserId;
+            row["Isbn"] = "0135974445";
+
+            table.Rows.Add(row);
+
+            DataRowView rowView = table.DefaultView[0];
+
+            DALWishlist wishlistDAL = new DALWishlist();
+            wishlistDAL.addItemToWishlist(userData.UserId, rowView);
+            var list = wishlistDAL.GetWishlistItems(userData.UserId);
+            Assert.AreEqual(row["Isbn"], list[0].Isbn);
+            // need a way to delete by wishlist item ID I think
         }
 
     }
