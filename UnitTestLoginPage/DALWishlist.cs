@@ -17,9 +17,8 @@ namespace BookStoreLIB
         {
             var conn = new SqlConnection(Properties.Settings.Default.Connection);
             //int newWishlistItemId = -1;
- 
-            //try
-            //{
+
+            try {
                 conn.Open();
                 using (var transaction = conn.BeginTransaction())
                 {
@@ -35,19 +34,16 @@ namespace BookStoreLIB
 
                     transaction.Commit();
                 }
-            //}
-            //catch (Exception ex)
-            //{
-            //    Debug.WriteLine(ex.ToString());
-            //    //return -1;
-            //}
-            //finally
-            //{
-            //    if (conn.State == ConnectionState.Open)
-            //    {
-            //        conn.Close();
-            //    }
-            //}
+            }
+            catch (Exception ex) {
+                Debug.WriteLine(ex.ToString());
+                //return -1;
+            }
+            finally {
+                if (conn.State == ConnectionState.Open) {
+                    conn.Close();
+                }
+            }
 
             //return newWishlistItemId;
         }
@@ -99,8 +95,7 @@ namespace BookStoreLIB
                             WHERE 
                                 W.UserId = @LoggedInUserID;";
 
-            //try
-            //{
+            try {
                 using (SqlConnection connection = new SqlConnection(Properties.Settings.Default.Connection))
                 {
                     connection.Open();
@@ -119,11 +114,10 @@ namespace BookStoreLIB
                         }
                     }
                 }
-            //}
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine(ex);
-            //}
+            }
+            catch (Exception ex) {
+                Console.WriteLine(ex);
+            }
             return items;
         }
     }
