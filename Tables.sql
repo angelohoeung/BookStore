@@ -72,3 +72,13 @@ CREATE TABLE ShoppingCart (
     CONSTRAINT FK_ShoppingCart_User FOREIGN KEY (UserID) REFERENCES UserData(UserID),
     CONSTRAINT FK_ShoppingCart_Book FOREIGN KEY (ISBN) REFERENCES BookData(ISBN)
 );
+
+CREATE TABLE [dbo].[Wishlist] (
+    [WishlistItemId] INT       IDENTITY (1, 1) NOT NULL,
+    [UserId]         INT       NOT NULL,
+    [Isbn]           CHAR (10) NOT NULL,
+    PRIMARY KEY CLUSTERED ([WishlistItemId] ASC),
+    CONSTRAINT [FK_UserId] FOREIGN KEY ([UserId]) REFERENCES [dbo].[UserData] ([UserID]),
+    CONSTRAINT [FK_Isbn] FOREIGN KEY ([Isbn]) REFERENCES [dbo].[BookData] ([ISBN])
+);
+
