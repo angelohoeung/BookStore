@@ -109,7 +109,12 @@ namespace BookStoreGUI {
             poView.Owner = this;
             poView.Title = "Order History";
 
-            poView.PastOrderDataGrid.ItemsSource = _accountDataSet.Tables["Orders"].DefaultView;
+            if (_accountDataSet != null && _accountDataSet.Tables.Contains("Orders")) {
+                poView.PastOrderDataGrid.ItemsSource = _accountDataSet.Tables["Orders"].DefaultView;
+            }
+            else {
+                return;
+            }
             if (poView.ShowDialog() == true)
             {
                 //Code here after the PastOrderDialog is closed
