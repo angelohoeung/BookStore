@@ -382,7 +382,7 @@ namespace BookStoreGUI {
             }
             else
             {
-                MessageBox.Show("You are not logged in. Please log in to access account management.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("You are not logged in. Please log in to access wishlist.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -390,9 +390,14 @@ namespace BookStoreGUI {
             get { return userData.IsManager; }
         }
         private void DashboardButtonClick(object sender, RoutedEventArgs e) {
-            int userId = userData.UserId;
-            ManagerDashboard managerDashboard = new ManagerDashboard(userId);
-            managerDashboard.ShowDialog();
+            if (userData.IsManager) {
+                int userId = userData.UserId;
+                ManagerDashboard managerDashboard = new ManagerDashboard(userId);
+                managerDashboard.ShowDialog();
+            }
+            else {
+                MessageBox.Show("You do not have permission to access the Manager Dashboard.", "Access Denied", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }
