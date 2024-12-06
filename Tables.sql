@@ -82,3 +82,11 @@ CREATE TABLE [dbo].[Wishlist] (
     CONSTRAINT [FK_Isbn] FOREIGN KEY ([Isbn]) REFERENCES [dbo].[BookData] ([ISBN])
 );
 
+CREATE TABLE [dbo].[Review] (
+    [ISBN]    CHAR (10)     NOT NULL,
+    [UserID]  INT           NOT NULL,
+    [Content] VARCHAR (255) NOT NULL,
+    CONSTRAINT [PK_Review] PRIMARY KEY CLUSTERED ([ISBN] ASC, [UserID] ASC),
+    CONSTRAINT [FK_Review_UserData] FOREIGN KEY ([UserID]) REFERENCES [dbo].[UserData] ([UserID]),
+    CONSTRAINT [FK_Review_BookData] FOREIGN KEY ([ISBN]) REFERENCES [dbo].[BookData] ([ISBN])
+);
