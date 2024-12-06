@@ -103,16 +103,16 @@
                         Content="Add Book" Click="addButton_Click" />
                 <Button x:Name="wishlistButton" MinHeight="25" MinWidth="80" 
                         Content="Add to Wishlist" Click="wishlistButton_Click" 
-                        Margin="10,0,0,0"/>
+                        Margin="5,0,0,0"/>
                 <Button x:Name="searchButton" MinHeight="25" MinWidth="80" 
                          Content="Search for Books" Click="searchButton_Click" 
-                         Margin="10,0,0,0"/>
+                         Margin="5,0,0,0"/>
                 <Button x:Name="reviewButton" MinHeight="25" MinWidth="80" 
                         Content="Review a Book" Click="reviewButton_Click" 
-                        Margin="10,0,0,0"/>
+                        Margin="5,0,0,0"/>
                 <Button x:Name="checkoutOrderButton" MinHeight="25" MinWidth="80"
                         Content="Proceed to Checkout" Click="chechoutButton_Click" 
-                        Width="121" Margin="94,0,0,0"/>
+                        Width="121" Margin="5,0,0,0"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
                 <Button x:Name="dashboardButton" MinHeight="25" MinWidth="80" Content="Dashboard" Click="DashboardButtonClick" Width="121"/>
@@ -120,7 +120,7 @@
 		    Content="Account" Click="AccountButton_Click" Width="121" Margin="240,0,0,0"/>
             </StackPanel>
             <Button x:Name="viewWishlistButton" MinHeight="25" MinWidth="80"
-            Content="View Wishlist" Click="ViewWishlistButton_Click" Width="121" Margin="366,0,0,10"/>
+            Content="View Wishlist" Click="ViewWishlistButton_Click" Width="121" Margin="360,0,0,10"/>
         </StackPanel>
         <StatusBar VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="28" Margin="0">
             <TextBlock x:Name="statusTextBlock"><Run Text="Please login before proceeding to checkout."/></TextBlock>
