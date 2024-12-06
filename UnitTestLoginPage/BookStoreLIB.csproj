@@ -86,6 +86,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Diagnostics.DiagnosticSource.5.0.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
@@ -109,6 +110,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountTests.cs" />
+    <Compile Include="Agile1DB24DataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Agile1DB24DataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="BookCatalog.cs" />
     <Compile Include="BookOrder.cs" />
     <Compile Include="BookReviews.cs" />
@@ -131,9 +137,21 @@
     <Compile Include="TestSearch.cs" />
     <Compile Include="SignUpUnitTests.cs" />
     <Compile Include="ShoppingCartTests.cs" />
+    <Compile Include="ReviewTest.cs" />
     <Compile Include="UserData.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Agile1DB24DataSet.xsc">
+      <DependentUpon>Agile1DB24DataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Agile1DB24DataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Agile1DB24DataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Agile1DB24DataSet.xss">
+      <DependentUpon>Agile1DB24DataSet.xsd</DependentUpon>
+    </None>
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

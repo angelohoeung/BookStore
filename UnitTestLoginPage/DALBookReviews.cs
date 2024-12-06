@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data.SqlClient;
 
 namespace BookStoreLIB
 {
@@ -17,39 +13,63 @@ namespace BookStoreLIB
             conn = new SqlConnection(Properties.Settings.Default.Connection);
         }
 
+        private string GetISBNForTitle(string title)
+        {
+            string isbn = null;
+            try
+            {
+                string query = "SELECT ISBN FROM BookData WHERE Title = @Title";
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Title", title);
+                    conn.Open();
+                    object result = cmd.ExecuteScalar();
+                    conn.Close();
+
+                    if (result != null)
+                        isbn = result.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error getting ISBN for title: " + ex.Message);
+                if (conn.State == ConnectionState.Open)
+                    conn.Close();
+            }
+            return isbn;
+        }
+
         public DataTable GetReviews(string title)
         {
             DataTable reviewsTable = new DataTable();
             try
             {
-                // SQL query to join BookData and Review tables based on the title
-                string query = @"
-                    SELECT r.UserID, r.Content
-                    FROM Review r
-                    INNER JOIN BookData b ON r.ISBN = b.ISBN
-                    WHERE b.Title = @Title";
+                string isbn = GetISBNForTitle(title);
+                if (isbn == null)
+                {
+                    // If no book found with that title, return empty table
+                    return reviewsTable;
+                }
 
+                string query = "SELECT UserID, Content FROM Review WHERE ISBN = @ISBN";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
-                    cmd.Parameters.AddWithValue("@Title", title);
-
-                    // Open connection, execute the query, and fill the DataTable
+                    cmd.Parameters.AddWithValue("@ISBN", isbn);
                     conn.Open();
                     using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
                     {
                         adapter.Fill(reviewsTable);
                     }
+                    conn.Close();
                 }
             }
             catch (Exception ex)
             {
-                // Handle exception (log or rethrow)
                 Console.WriteLine($"Error fetching reviews: {ex.Message}");
+                if (conn.State == ConnectionState.Open)
+                    conn.Close();
             }
-            finally
-            {
-                conn.Close();
-            }
+
             return reviewsTable;
         }
 
@@ -57,34 +77,33 @@ namespace BookStoreLIB
         {
             try
             {
-                // SQL query to insert a new review
-                string query = @"
-                    INSERT INTO Review (ISBN, UserID, Content)
-                    SELECT b.ISBN, @UserID, @Content
-                    FROM BookData b
-                    WHERE b.Title = @Title";
+                string isbn = GetISBNForTitle(title);
+                if (isbn == null)
+                {
+                    // Book does not exist
+                    return false;
+                }
 
+                string query = "INSERT INTO Review (ISBN, UserID, Content) VALUES (@ISBN, @UserID, @Content)";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
-                    cmd.Parameters.AddWithValue("@Title", title);
+                    cmd.Parameters.AddWithValue("@ISBN", isbn);
                     cmd.Parameters.AddWithValue("@UserID", userID);
                     cmd.Parameters.AddWithValue("@Content", content);
 
-                    // Open connection and execute the query
                     conn.Open();
                     int rowsAffected = cmd.ExecuteNonQuery();
-                    return rowsAffected > 0; // Returns true if a row was inserted
+                    conn.Close();
+
+                    return rowsAffected > 0;
                 }
             }
             catch (Exception ex)
             {
-                // Handle exception (log or rethrow)
                 Console.WriteLine($"Error adding review: {ex.Message}");
+                if (conn.State == ConnectionState.Open)
+                    conn.Close();
                 return false;
-            }
-            finally
-            {
-                conn.Close();
             }
         }
     }
