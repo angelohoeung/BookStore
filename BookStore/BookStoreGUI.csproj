@@ -141,6 +141,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BookReview.xaml.cs">
+      <DependentUpon>BookReview.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EditBookDialog.xaml.cs">
       <DependentUpon>EditBookDialog.xaml</DependentUpon>
     </Compile>
@@ -227,6 +230,10 @@
 	  </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="BookReview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="EditBookDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

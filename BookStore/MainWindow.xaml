@@ -107,9 +107,12 @@
                 <Button x:Name="searchButton" MinHeight="25" MinWidth="80" 
                          Content="Search for Books" Click="searchButton_Click" 
                          Margin="10,0,0,0"/>
+                <Button x:Name="reviewButton" MinHeight="25" MinWidth="80" 
+                        Content="Review a Book" Click="reviewButton_Click" 
+                        Margin="10,0,0,0"/>
                 <Button x:Name="checkoutOrderButton" MinHeight="25" MinWidth="80"
                         Content="Proceed to Checkout" Click="chechoutButton_Click" 
-                        Width="118" Margin="84,0,0,0"/>
+                        Width="121" Margin="94,0,0,0"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
                 <Button x:Name="dashboardButton" MinHeight="25" MinWidth="80" Content="Dashboard" Click="DashboardButtonClick" Width="121"/>
