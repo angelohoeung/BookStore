@@ -163,6 +163,9 @@ namespace BookStoreLIB
             DELETE FROM Orders
             WHERE UserID = @UserId;
 
+            DELETE FROM Review
+            WHERE UserID = @UserId;
+
             DELETE FROM WishList
             WHERE UserID = @UserId;
 
